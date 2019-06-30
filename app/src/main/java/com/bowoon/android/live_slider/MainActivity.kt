@@ -20,13 +20,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding.mainViewPager.adapter = ViewPagerAdapter(3, supportFragmentManager)
-
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
         adapter = NewsItemAdapter()
         binding.mainNewsItems.adapter = adapter
         binding.mainNewsItems.layoutManager = layoutManager
+        binding.mainViewPager.adapter = ViewPagerAdapter(3, supportFragmentManager, lifecycle)
 
         val r = RetrofitClass()
         r.getRSS(object : HttpCallback {

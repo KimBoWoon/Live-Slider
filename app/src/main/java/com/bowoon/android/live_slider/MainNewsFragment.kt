@@ -6,19 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import com.bowoon.android.live_slider.adapter.NewsItemAdapter
 import com.bowoon.android.live_slider.databinding.FragmentImageBinding
+import com.bowoon.android.live_slider.databinding.MainNewsItemBinding
+import com.bowoon.android.live_slider.databinding.NewsItemBinding
+import com.bowoon.android.live_slider.model.Channel
+import com.bowoon.android.live_slider.model.Item
 
 
-class ImageFragment : Fragment() {
+class MainNewsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding = DataBindingUtil.inflate<FragmentImageBinding>(
+        val binding = DataBindingUtil.inflate<MainNewsItemBinding>(
             inflater,
-            R.layout.fragment_image,
+            R.layout.main_news_item,
             container,
             false
         )
 
-        binding.fragmentImage.setImageResource(R.mipmap.ic_launcher)
+        binding.mainNewsTitle.text = "Hello, World!"
 
         return binding.root
     }
