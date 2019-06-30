@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bowoon.android.live_slider.adapter.NewsItemAdapter
+import com.bowoon.android.live_slider.adapter.ViewPagerAdapter
 import com.bowoon.android.live_slider.databinding.ActivityMainBinding
 import com.bowoon.android.live_slider.model.Channel
 import com.bowoon.android.live_slider.model.Item
@@ -18,6 +19,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        binding.mainViewPager.adapter = ViewPagerAdapter(3, supportFragmentManager)
 
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
