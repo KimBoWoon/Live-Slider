@@ -1,5 +1,7 @@
 package com.bowoon.android.live_slider.http
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.bowoon.android.live_slider.log.Log
 import com.bowoon.android.live_slider.model.Channel
 import com.google.gson.Gson
@@ -41,8 +43,10 @@ class RetrofitClass {
                 Log.i(TAG, t.message!!)
             }
 
+            @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onResponse(call: Call<String>, response: Response<String>) {
-                val xmlToJson = XmlToJson.Builder(response.body()!!).build()
+                val responseString = response.body()!!.replace(System.getProperty("line.separator")!!, "" ).replace("\t", "")
+                val xmlToJson = XmlToJson.Builder(responseString).build()
                 Log.i(TAG, xmlToJson.toString())
                 val parser = JsonParser()
                 val jsonString = parser.parse(xmlToJson.toString()).asJsonObject.get("rss").asJsonObject.get("channel")

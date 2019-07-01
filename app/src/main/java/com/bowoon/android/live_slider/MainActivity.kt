@@ -31,6 +31,10 @@ class MainActivity : AppCompatActivity() {
         newsViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
         binding.mainViewPager.adapter = newsViewPagerAdapter
 
+        binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("1"))
+        binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("2"))
+        binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("3"))
+
         val r = RetrofitClass()
         r.getRSS(object : HttpCallback {
             override fun onSuccess(o: Any) {
