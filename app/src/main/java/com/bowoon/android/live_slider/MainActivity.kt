@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bowoon.android.live_slider.adapter.NewsItemAdapter
 import com.bowoon.android.live_slider.adapter.ViewPagerAdapter
 import com.bowoon.android.live_slider.databinding.ActivityMainBinding
+import com.bowoon.android.live_slider.http.HttpCallback
+import com.bowoon.android.live_slider.http.RetrofitClass
 import com.bowoon.android.live_slider.model.Channel
 import com.bowoon.android.live_slider.model.Item
 
@@ -16,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: NewsItemAdapter
     private lateinit var layoutManager: LinearLayoutManager
     private val items:ArrayList<Item> = ArrayList<Item>()
+    private lateinit var newsViewPagerAdapter: ViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +28,8 @@ class MainActivity : AppCompatActivity() {
         adapter = NewsItemAdapter()
         binding.mainNewsItems.adapter = adapter
         binding.mainNewsItems.layoutManager = layoutManager
-        binding.mainViewPager.adapter = ViewPagerAdapter(3, supportFragmentManager, lifecycle)
+        newsViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
+        binding.mainViewPager.adapter = newsViewPagerAdapter
 
         val r = RetrofitClass()
         r.getRSS(object : HttpCallback {
@@ -36,6 +40,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     adapter.setItems(items)
+                    newsViewPagerAdapter.setItems(items)
                     binding.executePendingBindings()
                 }
             }

@@ -1,4 +1,6 @@
-package com.bowoon.android.live_slider
+package com.bowoon.android.live_slider.log
+
+import com.bowoon.android.live_slider.BuildConfig
 
 object Log {
     fun i(tag: String, msg: String) {

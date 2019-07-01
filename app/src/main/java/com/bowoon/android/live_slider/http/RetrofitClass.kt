@@ -1,8 +1,8 @@
-package com.bowoon.android.live_slider
+package com.bowoon.android.live_slider.http
 
+import com.bowoon.android.live_slider.log.Log
 import com.bowoon.android.live_slider.model.Channel
 import com.google.gson.Gson
-import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -11,7 +11,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import fr.arnaudguyon.xmltojsonlib.XmlToJson
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
 

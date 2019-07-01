@@ -1,6 +1,7 @@
 package com.bowoon.android.live_slider.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Item(
     @SerializedName("title")
@@ -13,4 +14,4 @@ data class Item(
     val author: String,
     @SerializedName("pubDate")
     val pubDate:String
-)
+) : Serializable

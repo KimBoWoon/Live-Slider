@@ -1,4 +1,4 @@
-package com.bowoon.android.live_slider
+package com.bowoon.android.live_slider.http
 
 import retrofit2.Call
 import retrofit2.http.GET
