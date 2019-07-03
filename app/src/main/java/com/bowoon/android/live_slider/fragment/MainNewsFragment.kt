@@ -13,6 +13,7 @@ import com.bowoon.android.live_slider.model.Item
 
 class MainNewsFragment : Fragment() {
     private lateinit var binding: MainNewsItemBinding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate<MainNewsItemBinding>(
             inflater,

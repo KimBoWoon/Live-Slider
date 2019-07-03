@@ -5,5 +5,8 @@ import retrofit2.http.GET
 
 interface HttpService {
     @GET("/joins_news_list.xml")
-    fun getRSS(): Call<String>
+    fun getNews(): Call<String>
+
+    @GET("/joins_homenews_list.xml")
+    fun getMainNew(): Call<String>
 }
