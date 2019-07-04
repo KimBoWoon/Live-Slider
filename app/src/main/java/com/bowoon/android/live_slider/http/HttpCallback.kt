@@ -1,4 +1,4 @@
-package com.bowoon.android.live_slider
+package com.bowoon.android.live_slider.http
 
 interface HttpCallback {
     fun onSuccess(o: Any)
