@@ -8,7 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.databinding.MainNewsItemBinding
+import com.bowoon.android.live_slider.http.HttpCallback
+import com.bowoon.android.live_slider.http.HttpRequest
+import com.bowoon.android.live_slider.log.Log
 import com.bowoon.android.live_slider.model.Item
+import com.bowoon.android.live_slider.model.OGTag
+import com.bumptech.glide.Glide
 
 
 class MainNewsFragment : Fragment() {
@@ -29,8 +34,16 @@ class MainNewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            val news = it.getSerializable("news") as Item
+            val news = it.getParcelable("news") as Item
+
             binding.mainNewsTitle.text = news.title
+
+            Glide
+                .with(context!!)
+                .load(news.ogTag.image)
+                .centerCrop()
+                .placeholder(R.drawable.ic_launcher_background)
+                .into(binding.mainNewsImage)
         }
     }
 }
