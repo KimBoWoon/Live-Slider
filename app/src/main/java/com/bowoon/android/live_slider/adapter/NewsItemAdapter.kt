@@ -49,6 +49,11 @@ class NewsItemAdapter(requestManager: RequestManager) : RecyclerView.Adapter<New
         notifyDataSetChanged()
     }
 
+    fun setItems(items: ArrayList<Item>, idx: Int) {
+        this.items = items
+        notifyItemChanged(idx)
+    }
+
     companion object {
         class NewsItemHolder(val binding: NewsItemBinding) : RecyclerView.ViewHolder(binding.root)
     }

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bowoon.android.live_slider.adapter.NewsItemAdapter
 import com.bowoon.android.live_slider.adapter.ViewPagerAdapter
+import com.bowoon.android.live_slider.animation.ViewPagerAnimation
 import com.bowoon.android.live_slider.databinding.ActivityMainBinding
 import com.bowoon.android.live_slider.http.HttpCallback
 import com.bowoon.android.live_slider.http.HttpRequest
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         binding.mainNewsItems.layoutManager = layoutManager
         mainNewsAdapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
         binding.mainViewPager.adapter = mainNewsAdapter
+        binding.mainViewPager.setPageTransformer(ViewPagerAnimation())
 
         binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("1"))
         binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("2"))
@@ -45,19 +47,25 @@ class MainActivity : AppCompatActivity() {
     private fun request() {
         HttpRequest.getMainNews(object : HttpCallback {
             override fun onSuccess(o: Any) {
+                var idx = 0
                 if (o is Channel) {
                     for (i in o.item) {
                         mainNewsItems.add(i)
                         i.ogTag = OGTag()
 
-                        HttpRequest.getOGTag(i.link,  object : HttpCallback {
+                        HttpRequest.getOGTag(i.link, object : HttpCallback {
                             override fun onSuccess(o: Any) {
                                 if (o is OGTag) {
                                     i.ogTag = o
-                                }
 
-                                mainNewsAdapter.setItems(mainNewsItems)
-                                binding.executePendingBindings()
+                                    runOnUiThread(object : Runnable {
+                                        override fun run() {
+                                            mainNewsAdapter.setItems(mainNewsItems, idx)
+                                            binding.executePendingBindings()
+                                            idx++
+                                        }
+                                    })
+                                }
                             }
 
                             override fun onFail(o: Any) {
@@ -78,19 +86,25 @@ class MainActivity : AppCompatActivity() {
 
         HttpRequest.getNews(object : HttpCallback {
             override fun onSuccess(o: Any) {
+                var idx = 0
                 if (o is Channel) {
                     for (i in o.item) {
                         newsItems.add(i)
                         i.ogTag = OGTag()
 
-                        HttpRequest.getOGTag(i.link,  object : HttpCallback {
+                        HttpRequest.getOGTag(i.link, object : HttpCallback {
                             override fun onSuccess(o: Any) {
                                 if (o is OGTag) {
                                     i.ogTag = o
-                                }
 
-                                newsItemAdapter.setItems(newsItems)
-                                binding.executePendingBindings()
+                                    runOnUiThread(object : Runnable {
+                                        override fun run() {
+                                            newsItemAdapter.setItems(newsItems, idx)
+                                            binding.executePendingBindings()
+                                            idx++
+                                        }
+                                    })
+                                }
                             }
 
                             override fun onFail(o: Any) {
@@ -108,15 +122,5 @@ class MainActivity : AppCompatActivity() {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         })
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        Glide.get(this).clearMemory()
-    }
-
-    override fun onTrimMemory(level: Int) {
-        super.onTrimMemory(level)
-        Glide.get(this).trimMemory(level)
     }
 }

@@ -29,4 +29,9 @@ class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
         this.items = items
         notifyDataSetChanged()
     }
+
+    fun setItems(items: ArrayList<Item>, idx: Int) {
+        this.items = items
+        notifyItemChanged(idx)
+    }
 }
