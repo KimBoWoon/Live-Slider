@@ -4,6 +4,7 @@ import android.os.AsyncTask
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.bowoon.android.live_slider.BasicApp
+import com.bowoon.android.live_slider.Data
 import com.bowoon.android.live_slider.log.Log
 import com.bowoon.android.live_slider.model.Channel
 import com.bowoon.android.live_slider.model.Item
@@ -76,7 +77,7 @@ object HttpRequest {
 
             @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onResponse(call: Call<String>, response: Response<String>) {
-                xmlParser(response.body()!!, BasicApp.newsItems)
+                xmlParser(response.body()!!, Data.newsItems)
                 callback.onSuccess(null)
             }
         })
@@ -91,7 +92,7 @@ object HttpRequest {
 
             @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onResponse(call: Call<String>, response: Response<String>) {
-                xmlParser(response.body()!!, BasicApp.mainNewsItems)
+                xmlParser(response.body()!!, Data.mainNewsItems)
                 callback.onSuccess(null)
             }
         })

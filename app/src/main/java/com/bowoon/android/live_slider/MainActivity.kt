@@ -13,6 +13,7 @@ import com.bowoon.android.live_slider.http.AsyncTaskListener
 import com.bowoon.android.live_slider.http.HttpCallback
 import com.bowoon.android.live_slider.http.HttpRequest
 import com.bowoon.android.live_slider.log.Log
+import com.bowoon.android.live_slider.model.Item
 import com.bumptech.glide.Glide
 
 class MainActivity : AppCompatActivity() {
@@ -47,19 +48,20 @@ class MainActivity : AppCompatActivity() {
     private fun request() {
         HttpRequest.getMainNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
+                mainNewsAdapter.setItems(ArrayList<Item>(Data.mainNewsItems.subList(0, 5)))
                 HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
                     override fun startEvent() {
                         Log.i(TAG, "loading...")
                     }
 
                     override fun onEventCompleted() {
-                        mainNewsAdapter.setItems(BasicApp.mainNewsItems)
+                        mainNewsAdapter.setItems(ArrayList<Item>(Data.mainNewsItems.subList(0, 5)))
                     }
 
                     override fun onEventFailed() {
                         Log.i(TAG, "event failed")
                     }
-                }).execute(BasicApp.mainNewsItems)
+                }).execute(Data.mainNewsItems)
             }
 
             override fun onFail(o: Any) {
@@ -69,19 +71,20 @@ class MainActivity : AppCompatActivity() {
 
         HttpRequest.getNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
+                newsItemAdapter.setItems(ArrayList<Item>(Data.newsItems.subList(0, 5)))
                 HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
                     override fun startEvent() {
                         Log.i(TAG, "loading...")
                     }
 
                     override fun onEventCompleted() {
-                        newsItemAdapter.setItems(BasicApp.newsItems)
+                        newsItemAdapter.setItems(ArrayList<Item>(Data.newsItems.subList(0, 5)))
                     }
 
                     override fun onEventFailed() {
                         Log.i(TAG, "event failed")
                     }
-                }).execute(BasicApp.newsItems)
+                }).execute(Data.newsItems)
             }
 
             override fun onFail(o: Any) {

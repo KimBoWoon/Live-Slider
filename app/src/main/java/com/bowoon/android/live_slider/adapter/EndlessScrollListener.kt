@@ -2,11 +2,10 @@ package com.bowoon.android.live_slider.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bowoon.android.live_slider.BasicApp
+import com.bowoon.android.live_slider.Data
 import com.bowoon.android.live_slider.model.Item
 
-class EndlessScrollListener : RecyclerView.OnScrollListener() {
-    private val items: ArrayList<Item> = ArrayList<Item>()
-
+object EndlessScrollListener : RecyclerView.OnScrollListener() {
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
     }
@@ -15,7 +14,19 @@ class EndlessScrollListener : RecyclerView.OnScrollListener() {
         super.onScrollStateChanged(recyclerView, newState)
     }
 
-    fun onLoadMore(position: Int) {
-        items.addAll(BasicApp.newsItems.subList(position, position + 5))
+    fun onMainNewsLoadMore(position: Int, list: ArrayList<Item>) {
+        list.addAll(Data.mainNewsItems.subList(position, position + 5))
+    }
+
+    fun onMainNewsLoadMore(fromPosition: Int, toPosition: Int, list: ArrayList<Item>) {
+        list.addAll(Data.mainNewsItems.subList(fromPosition, toPosition))
+    }
+
+    fun onNewsLoadMore(position: Int, list: ArrayList<Item>) {
+        list.addAll(Data.newsItems.subList(position, position + 5))
+    }
+
+    fun onNewsLoadMore(fromPosition: Int, toPosition: Int, list: ArrayList<Item>) {
+        list.addAll(Data.newsItems.subList(fromPosition, toPosition))
     }
 }
