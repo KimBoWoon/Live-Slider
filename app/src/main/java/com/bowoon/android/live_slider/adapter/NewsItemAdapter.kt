@@ -5,15 +5,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bowoon.android.live_slider.BasicApp
 import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.databinding.NewsItemBinding
 import com.bowoon.android.live_slider.model.Item
-import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 
-class NewsItemAdapter(requestManager: RequestManager) : RecyclerView.Adapter<NewsItemAdapter.Companion.NewsItemHolder>() {
-    private var items: ArrayList<Item>? = null
+class NewsItemAdapter(requestManager: RequestManager) :
+    RecyclerView.Adapter<NewsItemAdapter.Companion.NewsItemHolder>() {
+    private var items: List<Item>? = null
     private val glide = requestManager
+    private val endlessScrollListener = EndlessScrollListener()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsItemHolder {
         val binding = DataBindingUtil.inflate<NewsItemBinding>(
@@ -42,14 +44,19 @@ class NewsItemAdapter(requestManager: RequestManager) : RecyclerView.Adapter<New
             .centerCrop()
             .placeholder(R.drawable.ic_launcher_background)
             .into(holder.binding.newsImage)
+
+        if (position == itemCount - 1) {
+            endlessScrollListener.onLoadMore(position)
+            notifyDataSetChanged()
+        }
     }
 
-    fun setItems(items: ArrayList<Item>) {
+    fun setItems(items: List<Item>) {
         this.items = items
         notifyDataSetChanged()
     }
 
-    fun setItems(items: ArrayList<Item>, idx: Int) {
+    fun setItems(items: List<Item>, idx: Int) {
         this.items = items
         notifyItemChanged(idx)
     }
@@ -57,4 +64,18 @@ class NewsItemAdapter(requestManager: RequestManager) : RecyclerView.Adapter<New
     companion object {
         class NewsItemHolder(val binding: NewsItemBinding) : RecyclerView.ViewHolder(binding.root)
     }
+
+//    inner class EndlessScrollListener : RecyclerView.OnScrollListener() {
+//        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//            super.onScrolled(recyclerView, dx, dy)
+//        }
+//
+//        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+//            super.onScrollStateChanged(recyclerView, newState)
+//        }
+//
+//        fun onLoadMore(position: Int) {
+//            items!!.addAll(BasicApp.newsItems.subList(position, position + 5))
+//        }
+//    }
 }

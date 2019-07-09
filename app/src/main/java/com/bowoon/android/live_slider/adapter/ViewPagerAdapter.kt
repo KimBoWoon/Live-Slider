@@ -9,7 +9,7 @@ import com.bowoon.android.live_slider.fragment.MainNewsFragment
 import com.bowoon.android.live_slider.model.Item
 
 class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
-    private var items: ArrayList<Item>? = null
+    private var items: List<Item>? = null
 
     override fun createFragment(position: Int): Fragment = MainNewsFragment().apply {
         arguments = bundleOf(
@@ -25,12 +25,12 @@ class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
         }
     }
 
-    fun setItems(items: ArrayList<Item>) {
+    fun setItems(items: List<Item>) {
         this.items = items
         notifyDataSetChanged()
     }
 
-    fun setItems(items: ArrayList<Item>, idx: Int) {
+    fun setItems(items: List<Item>, idx: Int) {
         this.items = items
         notifyItemChanged(idx)
     }

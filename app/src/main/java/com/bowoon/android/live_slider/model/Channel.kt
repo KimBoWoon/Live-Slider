@@ -4,17 +4,19 @@ import com.google.gson.annotations.SerializedName
 
 data class Channel(
     @SerializedName("title")
-    val title: String,
+    var title: String,
     @SerializedName("link")
-    val link: String,
+    var link: String,
     @SerializedName("language")
-    val language: String,
+    var language: String,
     @SerializedName("copyright")
-    val copyright: String,
+    var copyright: String,
     @SerializedName("pubDate")
-    val pubDate: String,
+    var pubDate: String,
     @SerializedName("lastBuildDate")
-    val lastBuildDate: String,
+    var lastBuildDate: String,
     @SerializedName("item")
-    val item: ArrayList<Item>
-)
+    var item: ArrayList<Item>
+) {
+    constructor() : this("", "", "", "", "", "", ArrayList<Item>())
+}

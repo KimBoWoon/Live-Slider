@@ -1,7 +1,7 @@
 package com.bowoon.android.live_slider
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -9,11 +9,10 @@ import com.bowoon.android.live_slider.adapter.NewsItemAdapter
 import com.bowoon.android.live_slider.adapter.ViewPagerAdapter
 import com.bowoon.android.live_slider.animation.ViewPagerAnimation
 import com.bowoon.android.live_slider.databinding.ActivityMainBinding
+import com.bowoon.android.live_slider.http.AsyncTaskListener
 import com.bowoon.android.live_slider.http.HttpCallback
 import com.bowoon.android.live_slider.http.HttpRequest
-import com.bowoon.android.live_slider.model.Channel
-import com.bowoon.android.live_slider.model.Item
-import com.bowoon.android.live_slider.model.OGTag
+import com.bowoon.android.live_slider.log.Log
 import com.bumptech.glide.Glide
 
 class MainActivity : AppCompatActivity() {
@@ -21,15 +20,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var newsItemAdapter: NewsItemAdapter
     private lateinit var mainNewsAdapter: ViewPagerAdapter
     private lateinit var layoutManager: LinearLayoutManager
-    private val newsItems: ArrayList<Item> = ArrayList<Item>()
-    private val mainNewsItems: ArrayList<Item> = ArrayList<Item>()
     private val TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        initView()
         request()
+    }
 
+    private fun initView() {
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
         newsItemAdapter = NewsItemAdapter(Glide.with(this))
@@ -46,37 +46,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun request() {
         HttpRequest.getMainNews(object : HttpCallback {
-            override fun onSuccess(o: Any) {
-                var idx = 0
-                if (o is Channel) {
-                    for (i in o.item) {
-                        mainNewsItems.add(i)
-                        i.ogTag = OGTag()
-
-                        HttpRequest.getOGTag(i.link, object : HttpCallback {
-                            override fun onSuccess(o: Any) {
-                                if (o is OGTag) {
-                                    i.ogTag = o
-
-                                    runOnUiThread(object : Runnable {
-                                        override fun run() {
-                                            mainNewsAdapter.setItems(mainNewsItems, idx)
-                                            binding.executePendingBindings()
-                                            idx++
-                                        }
-                                    })
-                                }
-                            }
-
-                            override fun onFail(o: Any) {
-                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                            }
-                        })
+            override fun onSuccess(o: Any?) {
+                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
+                    override fun startEvent() {
+                        Log.i(TAG, "loading...")
                     }
 
-                    mainNewsAdapter.setItems(mainNewsItems)
-                    binding.executePendingBindings()
-                }
+                    override fun onEventCompleted() {
+                        mainNewsAdapter.setItems(BasicApp.mainNewsItems)
+                    }
+
+                    override fun onEventFailed() {
+                        Log.i(TAG, "event failed")
+                    }
+                }).execute(BasicApp.mainNewsItems)
             }
 
             override fun onFail(o: Any) {
@@ -85,37 +68,20 @@ class MainActivity : AppCompatActivity() {
         })
 
         HttpRequest.getNews(object : HttpCallback {
-            override fun onSuccess(o: Any) {
-                var idx = 0
-                if (o is Channel) {
-                    for (i in o.item) {
-                        newsItems.add(i)
-                        i.ogTag = OGTag()
-
-                        HttpRequest.getOGTag(i.link, object : HttpCallback {
-                            override fun onSuccess(o: Any) {
-                                if (o is OGTag) {
-                                    i.ogTag = o
-
-                                    runOnUiThread(object : Runnable {
-                                        override fun run() {
-                                            newsItemAdapter.setItems(newsItems, idx)
-                                            binding.executePendingBindings()
-                                            idx++
-                                        }
-                                    })
-                                }
-                            }
-
-                            override fun onFail(o: Any) {
-                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                            }
-                        })
+            override fun onSuccess(o: Any?) {
+                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
+                    override fun startEvent() {
+                        Log.i(TAG, "loading...")
                     }
 
-                    newsItemAdapter.setItems(newsItems)
-                    binding.executePendingBindings()
-                }
+                    override fun onEventCompleted() {
+                        newsItemAdapter.setItems(BasicApp.newsItems)
+                    }
+
+                    override fun onEventFailed() {
+                        Log.i(TAG, "event failed")
+                    }
+                }).execute(BasicApp.newsItems)
             }
 
             override fun onFail(o: Any) {

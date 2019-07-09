@@ -34,7 +34,7 @@ class MainNewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            val news = it.getParcelable("news") as Item
+            val news = it.getSerializable("news") as Item
 
             binding.mainNewsTitle.text = news.title
 
