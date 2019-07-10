@@ -40,12 +40,43 @@ class MainActivity : AppCompatActivity() {
         binding.mainViewPager.adapter = mainNewsAdapter
         binding.mainViewPager.setPageTransformer(ViewPagerAnimation())
 
-        binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("1"))
-        binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("2"))
-        binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("3"))
+        binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("전체"))
+        binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("주요"))
+        binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("경제"))
+        binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("사회"))
+        binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("정치"))
+        binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("지구촌"))
+        binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("문화"))
+        binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("IT"))
+        binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("중앙데일리"))
+        binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("스포츠"))
+        binding.mainTabLayout.addTab(binding.mainTabLayout.newTab().setText("연예"))
     }
 
     private fun request() {
+        HttpRequest.getAllNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                newsItemAdapter.setItems(ArrayList<Item>(Data.allNews.subList(0, 5)))
+                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
+                    override fun startEvent() {
+                        Log.i(TAG, "loading...")
+                    }
+
+                    override fun onEventCompleted() {
+                        newsItemAdapter.setItems(ArrayList<Item>(Data.allNews.subList(0, 5)))
+                    }
+
+                    override fun onEventFailed() {
+                        Log.i(TAG, "event failed")
+                    }
+                }).execute(Data.allNews)
+            }
+
+            override fun onFail(o: Any) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+
         HttpRequest.getMainNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
                 mainNewsAdapter.setItems(ArrayList<Item>(Data.mainNews.subList(0, 5)))
@@ -69,22 +100,206 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        HttpRequest.getAllNews(object : HttpCallback {
+        HttpRequest.getMoneyNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                newsItemAdapter.setItems(ArrayList<Item>(Data.allNews.subList(0, 5)))
+                newsItemAdapter.setItems(ArrayList<Item>(Data.moneyNews.subList(0, 5)))
                 HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
                     override fun startEvent() {
                         Log.i(TAG, "loading...")
                     }
 
                     override fun onEventCompleted() {
-                        newsItemAdapter.setItems(ArrayList<Item>(Data.allNews.subList(0, 5)))
+                        newsItemAdapter.setItems(ArrayList<Item>(Data.moneyNews.subList(0, 5)))
                     }
 
                     override fun onEventFailed() {
                         Log.i(TAG, "event failed")
                     }
-                }).execute(Data.allNews)
+                }).execute(Data.moneyNews)
+            }
+
+            override fun onFail(o: Any) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+
+        HttpRequest.getLifeNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                newsItemAdapter.setItems(ArrayList<Item>(Data.lifeNews.subList(0, 5)))
+                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
+                    override fun startEvent() {
+                        Log.i(TAG, "loading...")
+                    }
+
+                    override fun onEventCompleted() {
+                        newsItemAdapter.setItems(ArrayList<Item>(Data.lifeNews.subList(0, 5)))
+                    }
+
+                    override fun onEventFailed() {
+                        Log.i(TAG, "event failed")
+                    }
+                }).execute(Data.lifeNews)
+            }
+
+            override fun onFail(o: Any) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+
+        HttpRequest.getPoliticsNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                newsItemAdapter.setItems(ArrayList<Item>(Data.politicsNews.subList(0, 5)))
+                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
+                    override fun startEvent() {
+                        Log.i(TAG, "loading...")
+                    }
+
+                    override fun onEventCompleted() {
+                        newsItemAdapter.setItems(ArrayList<Item>(Data.politicsNews.subList(0, 5)))
+                    }
+
+                    override fun onEventFailed() {
+                        Log.i(TAG, "event failed")
+                    }
+                }).execute(Data.politicsNews)
+            }
+
+            override fun onFail(o: Any) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+
+        HttpRequest.getWorldNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                newsItemAdapter.setItems(ArrayList<Item>(Data.worldNews.subList(0, 5)))
+                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
+                    override fun startEvent() {
+                        Log.i(TAG, "loading...")
+                    }
+
+                    override fun onEventCompleted() {
+                        newsItemAdapter.setItems(ArrayList<Item>(Data.worldNews.subList(0, 5)))
+                    }
+
+                    override fun onEventFailed() {
+                        Log.i(TAG, "event failed")
+                    }
+                }).execute(Data.worldNews)
+            }
+
+            override fun onFail(o: Any) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+
+        HttpRequest.getCultureNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                newsItemAdapter.setItems(ArrayList<Item>(Data.cultureNews.subList(0, 5)))
+                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
+                    override fun startEvent() {
+                        Log.i(TAG, "loading...")
+                    }
+
+                    override fun onEventCompleted() {
+                        newsItemAdapter.setItems(ArrayList<Item>(Data.cultureNews.subList(0, 5)))
+                    }
+
+                    override fun onEventFailed() {
+                        Log.i(TAG, "event failed")
+                    }
+                }).execute(Data.cultureNews)
+            }
+
+            override fun onFail(o: Any) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+
+        HttpRequest.getItNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                newsItemAdapter.setItems(ArrayList<Item>(Data.itNews.subList(0, 5)))
+                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
+                    override fun startEvent() {
+                        Log.i(TAG, "loading...")
+                    }
+
+                    override fun onEventCompleted() {
+                        newsItemAdapter.setItems(ArrayList<Item>(Data.itNews.subList(0, 5)))
+                    }
+
+                    override fun onEventFailed() {
+                        Log.i(TAG, "event failed")
+                    }
+                }).execute(Data.itNews)
+            }
+
+            override fun onFail(o: Any) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+
+        HttpRequest.getDailyNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                newsItemAdapter.setItems(ArrayList<Item>(Data.dailyNews.subList(0, 5)))
+                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
+                    override fun startEvent() {
+                        Log.i(TAG, "loading...")
+                    }
+
+                    override fun onEventCompleted() {
+                        newsItemAdapter.setItems(ArrayList<Item>(Data.dailyNews.subList(0, 5)))
+                    }
+
+                    override fun onEventFailed() {
+                        Log.i(TAG, "event failed")
+                    }
+                }).execute(Data.dailyNews)
+            }
+
+            override fun onFail(o: Any) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+
+        HttpRequest.getSportNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                newsItemAdapter.setItems(ArrayList<Item>(Data.sportNews.subList(0, 5)))
+                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
+                    override fun startEvent() {
+                        Log.i(TAG, "loading...")
+                    }
+
+                    override fun onEventCompleted() {
+                        newsItemAdapter.setItems(ArrayList<Item>(Data.sportNews.subList(0, 5)))
+                    }
+
+                    override fun onEventFailed() {
+                        Log.i(TAG, "event failed")
+                    }
+                }).execute(Data.sportNews)
+            }
+
+            override fun onFail(o: Any) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+
+        HttpRequest.getStarNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                newsItemAdapter.setItems(ArrayList<Item>(Data.starNews.subList(0, 5)))
+                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
+                    override fun startEvent() {
+                        Log.i(TAG, "loading...")
+                    }
+
+                    override fun onEventCompleted() {
+                        newsItemAdapter.setItems(ArrayList<Item>(Data.starNews.subList(0, 5)))
+                    }
+
+                    override fun onEventFailed() {
+                        Log.i(TAG, "event failed")
+                    }
+                }).execute(Data.starNews)
             }
 
             override fun onFail(o: Any) {

@@ -23,6 +23,7 @@ object HttpRequest {
     private val BASE_URL = "https://rss.joins.com/"
     private val client: Retrofit
     private val service: HttpService
+    private lateinit var call: Call<String>
 
     init {
         client = Retrofit.Builder()
@@ -74,7 +75,6 @@ object HttpRequest {
                 Log.i(TAG, t.message!!)
             }
 
-            @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 xmlParser(response.body()!!, Data.allNews)
                 callback.onSuccess(null)
@@ -89,9 +89,134 @@ object HttpRequest {
                 Log.i(TAG, t.message!!)
             }
 
-            @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 xmlParser(response.body()!!, Data.mainNews)
+                callback.onSuccess(null)
+            }
+        })
+    }
+
+    fun getMoneyNews(callback: HttpCallback) {
+        call = service.getMoneyNews()
+        call.enqueue(object : Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.i(TAG, t.message!!)
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                xmlParser(response.body()!!, Data.moneyNews)
+                callback.onSuccess(null)
+            }
+        })
+    }
+
+    fun getLifeNews(callback: HttpCallback) {
+        call = service.getLifeNews()
+        call.enqueue(object : Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.i(TAG, t.message!!)
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                xmlParser(response.body()!!, Data.lifeNews)
+                callback.onSuccess(null)
+            }
+        })
+    }
+
+    fun getPoliticsNews(callback: HttpCallback) {
+        call = service.getPoliticsNews()
+        call.enqueue(object : Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.i(TAG, t.message!!)
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                xmlParser(response.body()!!, Data.politicsNews)
+                callback.onSuccess(null)
+            }
+        })
+    }
+
+    fun getWorldNews(callback: HttpCallback) {
+        call = service.getWorldNews()
+        call.enqueue(object : Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.i(TAG, t.message!!)
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                xmlParser(response.body()!!, Data.worldNews)
+                callback.onSuccess(null)
+            }
+        })
+    }
+
+    fun getCultureNews(callback: HttpCallback) {
+        call = service.getCultureNews()
+        call.enqueue(object : Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.i(TAG, t.message!!)
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                xmlParser(response.body()!!, Data.cultureNews)
+                callback.onSuccess(null)
+            }
+        })
+    }
+
+    fun getItNews(callback: HttpCallback) {
+        call = service.getITNews()
+        call.enqueue(object : Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.i(TAG, t.message!!)
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                xmlParser(response.body()!!, Data.itNews)
+                callback.onSuccess(null)
+            }
+        })
+    }
+
+    fun getDailyNews(callback: HttpCallback) {
+        call = service.getDailyNews()
+        call.enqueue(object : Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.i(TAG, t.message!!)
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                xmlParser(response.body()!!, Data.dailyNews)
+                callback.onSuccess(null)
+            }
+        })
+    }
+
+    fun getSportNews(callback: HttpCallback) {
+        call = service.getSportsNews()
+        call.enqueue(object : Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.i(TAG, t.message!!)
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                xmlParser(response.body()!!, Data.sportNews)
+                callback.onSuccess(null)
+            }
+        })
+    }
+
+    fun getStarNews(callback: HttpCallback) {
+        call = service.getStarNews()
+        call.enqueue(object : Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.i(TAG, t.message!!)
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                xmlParser(response.body()!!, Data.starNews)
                 callback.onSuccess(null)
             }
         })
