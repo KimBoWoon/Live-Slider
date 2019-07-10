@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.bowoon.android.live_slider.BasicApp
 import com.bowoon.android.live_slider.Data
+import com.bowoon.android.live_slider.NewsType
 import com.bowoon.android.live_slider.fragment.MainNewsFragment
 import com.bowoon.android.live_slider.model.Item
 
@@ -16,10 +16,10 @@ class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
 
     override fun createFragment(position: Int): Fragment {
         if (position == items!!.size - 1) {
-            if (position + 5 < Data.mainNewsItems.size) {
-                EndlessScrollListener.onMainNewsLoadMore(position + 1, items!!)
+            if (position + 5 < Data.mainNews.size) {
+                EndlessScrollListener.onLoadMore(position + 1, NewsType.MAIN, items!!)
             } else {
-                EndlessScrollListener.onMainNewsLoadMore(position + 1, Data.mainNewsItems.size, items!!)
+                EndlessScrollListener.onLoadMore(position + 1, Data.mainNews.size, NewsType.MAIN, items!!)
             }
         }
 

@@ -48,20 +48,20 @@ class MainActivity : AppCompatActivity() {
     private fun request() {
         HttpRequest.getMainNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                mainNewsAdapter.setItems(ArrayList<Item>(Data.mainNewsItems.subList(0, 5)))
+                mainNewsAdapter.setItems(ArrayList<Item>(Data.mainNews.subList(0, 5)))
                 HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
                     override fun startEvent() {
                         Log.i(TAG, "loading...")
                     }
 
                     override fun onEventCompleted() {
-                        mainNewsAdapter.setItems(ArrayList<Item>(Data.mainNewsItems.subList(0, 5)))
+                        mainNewsAdapter.setItems(ArrayList<Item>(Data.mainNews.subList(0, 5)))
                     }
 
                     override fun onEventFailed() {
                         Log.i(TAG, "event failed")
                     }
-                }).execute(Data.mainNewsItems)
+                }).execute(Data.mainNews)
             }
 
             override fun onFail(o: Any) {
@@ -69,22 +69,22 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        HttpRequest.getNews(object : HttpCallback {
+        HttpRequest.getAllNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                newsItemAdapter.setItems(ArrayList<Item>(Data.newsItems.subList(0, 5)))
+                newsItemAdapter.setItems(ArrayList<Item>(Data.allNews.subList(0, 5)))
                 HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
                     override fun startEvent() {
                         Log.i(TAG, "loading...")
                     }
 
                     override fun onEventCompleted() {
-                        newsItemAdapter.setItems(ArrayList<Item>(Data.newsItems.subList(0, 5)))
+                        newsItemAdapter.setItems(ArrayList<Item>(Data.allNews.subList(0, 5)))
                     }
 
                     override fun onEventFailed() {
                         Log.i(TAG, "event failed")
                     }
-                }).execute(Data.newsItems)
+                }).execute(Data.allNews)
             }
 
             override fun onFail(o: Any) {

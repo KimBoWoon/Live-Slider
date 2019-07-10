@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bowoon.android.live_slider.BasicApp
 import com.bowoon.android.live_slider.Data
+import com.bowoon.android.live_slider.NewsType
 import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.databinding.NewsItemBinding
 import com.bowoon.android.live_slider.model.Item
@@ -48,10 +48,10 @@ class NewsItemAdapter(requestManager: RequestManager) :
             .into(holder.binding.newsImage)
 
         if (position == itemCount - 1) {
-            if (position + 5 < Data.newsItems.size) {
-                EndlessScrollListener.onNewsLoadMore(position + 1, items!!)
+            if (position + 5 < Data.allNews.size) {
+                EndlessScrollListener.onLoadMore(position + 1, NewsType.ALL, items!!)
             } else {
-                EndlessScrollListener.onNewsLoadMore(position + 1, Data.newsItems.size, items!!)
+                EndlessScrollListener.onLoadMore(position + 1, Data.allNews.size, NewsType.ALL, items!!)
             }
             Handler().post(object : Runnable {
                 override fun run() {

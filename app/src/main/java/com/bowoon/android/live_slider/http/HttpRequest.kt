@@ -3,7 +3,6 @@ package com.bowoon.android.live_slider.http
 import android.os.AsyncTask
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.bowoon.android.live_slider.BasicApp
 import com.bowoon.android.live_slider.Data
 import com.bowoon.android.live_slider.log.Log
 import com.bowoon.android.live_slider.model.Channel
@@ -68,8 +67,8 @@ object HttpRequest {
         }
     }
 
-    fun getNews(callback: HttpCallback) {
-        val call: Call<String> = service.getNews()
+    fun getAllNews(callback: HttpCallback) {
+        val call: Call<String> = service.getAllNews()
         call.enqueue(object : Callback<String> {
             override fun onFailure(call: Call<String>, t: Throwable) {
                 Log.i(TAG, t.message!!)
@@ -77,14 +76,14 @@ object HttpRequest {
 
             @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onResponse(call: Call<String>, response: Response<String>) {
-                xmlParser(response.body()!!, Data.newsItems)
+                xmlParser(response.body()!!, Data.allNews)
                 callback.onSuccess(null)
             }
         })
     }
 
     fun getMainNews(callback: HttpCallback) {
-        val call: Call<String> = service.getMainNew()
+        val call: Call<String> = service.getMainNews()
         call.enqueue(object : Callback<String> {
             override fun onFailure(call: Call<String>, t: Throwable) {
                 Log.i(TAG, t.message!!)
@@ -92,7 +91,7 @@ object HttpRequest {
 
             @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onResponse(call: Call<String>, response: Response<String>) {
-                xmlParser(response.body()!!, Data.mainNewsItems)
+                xmlParser(response.body()!!, Data.mainNews)
                 callback.onSuccess(null)
             }
         })

@@ -6,10 +6,10 @@ import retrofit2.http.Url
 
 interface HttpService {
     @GET("/joins_news_list.xml")
-    fun getNews(): Call<String>
+    fun getAllNews(): Call<String>
 
     @GET("/joins_homenews_list.xml")
-    fun getMainNew(): Call<String>
+    fun getMainNews(): Call<String>
 
     @GET
     fun getOGTag(@Url url: String): Call<String>

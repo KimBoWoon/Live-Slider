@@ -1,8 +1,9 @@
 package com.bowoon.android.live_slider.adapter
 
 import androidx.recyclerview.widget.RecyclerView
-import com.bowoon.android.live_slider.BasicApp
 import com.bowoon.android.live_slider.Data
+import com.bowoon.android.live_slider.NewsType
+import com.bowoon.android.live_slider.NewsType.*
 import com.bowoon.android.live_slider.model.Item
 
 object EndlessScrollListener : RecyclerView.OnScrollListener() {
@@ -14,19 +15,31 @@ object EndlessScrollListener : RecyclerView.OnScrollListener() {
         super.onScrollStateChanged(recyclerView, newState)
     }
 
-    fun onMainNewsLoadMore(position: Int, list: ArrayList<Item>) {
-        list.addAll(Data.mainNewsItems.subList(position, position + 5))
+    fun onLoadMore(position: Int, type: NewsType, list: ArrayList<Item>) {
+        when (type) {
+            ALL -> list.addAll(Data.allNews.subList(position, position + 5))
+            MAIN -> list.addAll(Data.mainNews.subList(position, position + 5))
+            MONEY -> TODO()
+            LIFE -> TODO()
+            POLITICS -> TODO()
+            WORLD -> TODO()
+            CULTURE -> TODO()
+            IT -> TODO()
+            DAILY -> TODO()
+        }
     }
 
-    fun onMainNewsLoadMore(fromPosition: Int, toPosition: Int, list: ArrayList<Item>) {
-        list.addAll(Data.mainNewsItems.subList(fromPosition, toPosition))
-    }
-
-    fun onNewsLoadMore(position: Int, list: ArrayList<Item>) {
-        list.addAll(Data.newsItems.subList(position, position + 5))
-    }
-
-    fun onNewsLoadMore(fromPosition: Int, toPosition: Int, list: ArrayList<Item>) {
-        list.addAll(Data.newsItems.subList(fromPosition, toPosition))
+    fun onLoadMore(fromPosition: Int, toPosition: Int, type: NewsType, list: ArrayList<Item>) {
+        when (type) {
+            ALL -> list.addAll(Data.allNews.subList(fromPosition, toPosition))
+            MAIN -> list.addAll(Data.mainNews.subList(fromPosition, toPosition))
+            MONEY -> TODO()
+            LIFE -> TODO()
+            POLITICS -> TODO()
+            WORLD -> TODO()
+            CULTURE -> TODO()
+            IT -> TODO()
+            DAILY -> TODO()
+        }
     }
 }
