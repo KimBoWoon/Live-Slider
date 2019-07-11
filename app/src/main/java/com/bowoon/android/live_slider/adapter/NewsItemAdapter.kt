@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bowoon.android.live_slider.Data
-import com.bowoon.android.live_slider.NewsType
+import com.bowoon.android.live_slider.type.NewsType
 import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.databinding.NewsItemBinding
 import com.bowoon.android.live_slider.model.Item

@@ -1,4 +1,6 @@
-package com.bowoon.android.live_slider
+package com.bowoon.android.live_slider.type
+
+import java.io.Serializable
 
 enum class NewsType {
     ALL,
@@ -9,5 +11,7 @@ enum class NewsType {
     WORLD,
     CULTURE,
     IT,
-    DAILY
+    DAILY,
+    SPORT,
+    STAR
 }

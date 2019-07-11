@@ -41,11 +41,12 @@
                         android:id="@+id/main_tab_layout"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
-                        android:layout_gravity="bottom"/>
+                        android:layout_gravity="bottom"
+                        app:tabMode="scrollable"/>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/main_news_items"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
