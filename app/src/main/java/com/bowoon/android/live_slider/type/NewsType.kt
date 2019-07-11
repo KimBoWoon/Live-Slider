@@ -1,5 +1,7 @@
 package com.bowoon.android.live_slider.type
 
+import java.io.Serializable
+
 enum class NewsType {
     ALL,
     MAIN,

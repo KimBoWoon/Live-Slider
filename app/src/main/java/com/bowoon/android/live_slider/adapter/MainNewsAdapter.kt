@@ -10,7 +10,7 @@ import com.bowoon.android.live_slider.type.NewsType
 import com.bowoon.android.live_slider.fragment.MainNewsFragment
 import com.bowoon.android.live_slider.model.Item
 
-class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
+class MainNewsAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
     private var items: ArrayList<Item>? = null
 
