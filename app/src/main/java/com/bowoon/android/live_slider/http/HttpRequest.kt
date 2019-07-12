@@ -250,15 +250,15 @@ object HttpRequest {
         override fun doInBackground(vararg params: List<Item>?) {
             for (i in 0 until params[0]?.size!!) {
                 val doc = Jsoup.connect(params[0]?.get(i)?.link!!).get()
-                params[0]?.get(i)?.ogTag?.type = doc.select("meta[property=og:type]").first().attr("content")
-                params[0]?.get(i)?.ogTag?.url = doc.select("meta[property=og:url]").first().attr("content")
-                params[0]?.get(i)?.ogTag?.title = doc.select("meta[property=og:title]").first().attr("content")
-                params[0]?.get(i)?.ogTag?.description = doc.select("meta[property=og:description]").first().attr("content")
-                params[0]?.get(i)?.ogTag?.image = doc.select("meta[property=og:image]").first().attr("content")
-                params[0]?.get(i)?.ogTag?.siteName = doc.select("meta[property=og:site_name]").first().attr("content")
-                params[0]?.get(i)?.ogTag?.locale = doc.select("meta[property=og:locale]").first().attr("content")
-                params[0]?.get(i)?.ogTag?.author = doc.select("meta[property=article:author]").first().attr("content")
-                params[0]?.get(i)?.ogTag?.publisher = doc.select("meta[property=article:publisher]").first().attr("content")
+                params[0]?.get(i)?.ogTag?.type = doc.select("meta[property=og:type]").first()?.attr("content")
+                params[0]?.get(i)?.ogTag?.url = doc.select("meta[property=og:url]").first()?.attr("content")
+                params[0]?.get(i)?.ogTag?.title = doc.select("meta[property=og:title]").first()?.attr("content")
+                params[0]?.get(i)?.ogTag?.description = doc.select("meta[property=og:description]").first()?.attr("content")
+                params[0]?.get(i)?.ogTag?.image = doc.select("meta[property=og:image]").first()?.attr("content")
+                params[0]?.get(i)?.ogTag?.siteName = doc.select("meta[property=og:site_name]").first()?.attr("content")
+                params[0]?.get(i)?.ogTag?.locale = doc.select("meta[property=og:locale]").first()?.attr("content")
+                params[0]?.get(i)?.ogTag?.author = doc.select("meta[property=article:author]").first()?.attr("content")
+                params[0]?.get(i)?.ogTag?.publisher = doc.select("meta[property=article:publisher]").first()?.attr("content")
             }
         }
     }

@@ -9,7 +9,7 @@ import com.bowoon.android.live_slider.fragment.NewsFragment
 import com.bowoon.android.live_slider.model.Item
 import com.bowoon.android.live_slider.type.NewsType
 
-class NewsAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
+class AdapterOfNewsKind(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
     private var items: ArrayList<Item>? = null
 

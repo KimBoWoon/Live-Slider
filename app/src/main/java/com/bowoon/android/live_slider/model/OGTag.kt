@@ -4,23 +4,23 @@ import com.google.gson.annotations.SerializedName
 
 data class OGTag(
     @SerializedName("og:type")
-    var type: String,
+    var type: String?,
     @SerializedName("og:url")
-    var url: String,
+    var url: String?,
     @SerializedName("og:title")
-    var title: String,
+    var title: String?,
     @SerializedName("og:description")
-    var description: String,
+    var description: String?,
     @SerializedName("og:image")
-    var image: String,
+    var image: String?,
     @SerializedName("og:site_name")
-    var siteName: String,
+    var siteName: String?,
     @SerializedName("og:locale")
-    var locale: String,
+    var locale: String?,
     @SerializedName("article:author")
-    var author: String,
+    var author: String?,
     @SerializedName("article:publisher")
-    var publisher: String
+    var publisher: String?
 ) {
     constructor() : this("", "", "", "", "", "", "", "", "")
 }

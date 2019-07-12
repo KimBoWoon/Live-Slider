@@ -14,8 +14,8 @@ import com.bowoon.android.live_slider.model.Item
 import com.bumptech.glide.RequestManager
 
 
-class NewsItemAdapter(requestManager: RequestManager) :
-    RecyclerView.Adapter<NewsItemAdapter.Companion.NewsItemHolder>() {
+class AdapterOfNews(requestManager: RequestManager) :
+    RecyclerView.Adapter<AdapterOfNews.Companion.NewsItemHolder>() {
     private var items: ArrayList<Item>? = null
     private val glide = requestManager
 
@@ -40,7 +40,7 @@ class NewsItemAdapter(requestManager: RequestManager) :
 
     override fun onBindViewHolder(holder: NewsItemHolder, position: Int) {
         holder.binding.newsTitle.text = items!![position].title
-        holder.binding.newsTitle.setTextColor(Color.BLACK)
+        holder.binding.newsDescription.text = items!![position].description
         glide
             .load(items!![position].ogTag.image)
             .centerCrop()

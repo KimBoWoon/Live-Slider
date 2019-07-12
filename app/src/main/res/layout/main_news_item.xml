@@ -8,12 +8,12 @@
             card:cardCornerRadius="3dp"
             android:layout_margin="5dp">
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/main_news_items_card_view"
+                android:id="@+id/major_news_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
             <ImageView
-                    android:id="@+id/main_news_image"
+                    android:id="@+id/major_new_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="@null"
@@ -21,7 +21,7 @@
                     app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
-                    android:id="@+id/main_news_title"
+                    android:id="@+id/major_news_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|start"

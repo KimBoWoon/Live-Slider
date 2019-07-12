@@ -16,7 +16,7 @@ import com.bowoon.android.live_slider.model.OGTag
 import com.bumptech.glide.Glide
 
 
-class MainNewsFragment : Fragment() {
+class MajorNewsFragment : Fragment() {
     private lateinit var binding: MainNewsItemBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,14 +36,14 @@ class MainNewsFragment : Fragment() {
         arguments?.let {
             val news = it.getSerializable("news") as Item
 
-            binding.mainNewsTitle.text = news.title
+            binding.majorNewsTitle.text = news.title
 
             Glide
                 .with(context!!)
                 .load(news.ogTag.image)
                 .centerCrop()
                 .placeholder(R.drawable.ic_launcher_background)
-                .into(binding.mainNewsImage)
+                .into(binding.majorNewImage)
         }
     }
 }
