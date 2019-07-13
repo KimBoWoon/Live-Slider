@@ -222,6 +222,31 @@ object HttpRequest {
         })
     }
 
+//    fun getOGTag(items: ArrayList<Item>, callback: HttpCallback) {
+//        for (i in items) {
+//            call = service.getOGTag(i.link)
+//            call.enqueue(object : Callback<String> {
+//                override fun onFailure(call: Call<String>, t: Throwable) {
+//                    Log.i(TAG, t.message!!)
+//                }
+//
+//                override fun onResponse(call: Call<String>, response: Response<String>) {
+//                    val doc = Jsoup.parse(response.body()!!)
+//                    i.ogTag.type = doc.select("meta[property=og:type]").first()?.attr("content")
+//                    i.ogTag.url = doc.select("meta[property=og:url]").first()?.attr("content")
+//                    i.ogTag.title = doc.select("meta[property=og:title]").first()?.attr("content")
+//                    i.ogTag.description = doc.select("meta[property=og:description]").first()?.attr("content")
+//                    i.ogTag.image = doc.select("meta[property=og:image]").first()?.attr("content")
+//                    i.ogTag.siteName = doc.select("meta[property=og:site_name]").first()?.attr("content")
+//                    i.ogTag.locale = doc.select("meta[property=og:locale]").first()?.attr("content")
+//                    i.ogTag.author = doc.select("meta[property=article:author]").first()?.attr("content")
+//                    i.ogTag.publisher = doc.select("meta[property=article:publisher]").first()?.attr("content")
+//                }
+//            })
+//        }
+//        callback.onSuccess(null)
+//    }
+
     class OGTagAsyncTask(private val listener: AsyncTaskListener) : AsyncTask<List<Item>, Unit, Unit>() {
         override fun onProgressUpdate(vararg values: Unit?) {
             super.onProgressUpdate(*values)

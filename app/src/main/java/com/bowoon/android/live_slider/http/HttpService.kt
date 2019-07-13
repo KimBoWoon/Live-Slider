@@ -37,4 +37,7 @@ interface HttpService {
 
     @GET("/joins_star_list.xml")
     fun getStarNews(): Call<String>
+
+//    @GET
+//    fun getOGTag(@Url url: String): Call<String>
 }

@@ -2,6 +2,7 @@ package com.bowoon.android.live_slider
 
 import android.os.AsyncTask
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +17,7 @@ import com.bowoon.android.live_slider.http.HttpCallback
 import com.bowoon.android.live_slider.http.HttpRequest
 import com.bowoon.android.live_slider.log.Log
 import com.bowoon.android.live_slider.model.Item
+import com.bowoon.android.live_slider.type.NewsType
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
@@ -73,23 +75,66 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun request() {
-        HttpRequest.getAllNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                adapterOfNewsKind.setItems(ArrayList<Item>(Data.allNews))
+    private fun success(items: ArrayList<Item>, type: NewsType) {
+        when (type) {
+            NewsType.MAIN -> {
+                runOnUiThread(object : Runnable {
+                    override fun run() {
+                        adapterOfMajorNews.setItems(items)
+                    }
+                })
                 HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
                     override fun startEvent() {
                         Log.i(TAG, "getAllNews")
                     }
 
                     override fun onEventCompleted() {
-                        adapterOfNewsKind.setItems(ArrayList<Item>(Data.allNews))
+                        runOnUiThread(object : Runnable {
+                            override fun run() {
+                                adapterOfMajorNews.setItems(items)
+                            }
+                        })
                     }
 
                     override fun onEventFailed() {
                         Log.i(TAG, "event failed")
                     }
-                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Data.allNews)
+                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, items)
+            }
+
+            else -> {
+                runOnUiThread(object : Runnable {
+                    override fun run() {
+                        adapterOfNewsKind.setItems(items)
+                    }
+                })
+                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
+                    override fun startEvent() {
+                        Log.i(TAG, "getAllNews")
+                    }
+
+                    override fun onEventCompleted() {
+                        runOnUiThread(object : Runnable {
+                            override fun run() {
+                                adapterOfNewsKind.setItems(items)
+                                binding.progressLayout.visibility = View.GONE
+                            }
+                        })
+                    }
+
+                    override fun onEventFailed() {
+                        Log.i(TAG, "event failed")
+                        binding.progressLayout.visibility = View.GONE
+                    }
+                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, items)
+            }
+        }
+    }
+
+    private fun request() {
+        HttpRequest.getAllNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                success(Data.allNews, NewsType.ALL)
             }
 
             override fun onFail(o: Any) {
@@ -99,20 +144,7 @@ class MainActivity : AppCompatActivity() {
 
         HttpRequest.getMainNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                adapterOfMajorNews.setItems(ArrayList<Item>(Data.mainNews))
-                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
-                    override fun startEvent() {
-                        Log.i(TAG, "getMainNews")
-                    }
-
-                    override fun onEventCompleted() {
-                        adapterOfMajorNews.setItems(ArrayList<Item>(Data.mainNews))
-                    }
-
-                    override fun onEventFailed() {
-                        Log.i(TAG, "event failed")
-                    }
-                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Data.mainNews)
+                success(Data.mainNews, NewsType.MAIN)
             }
 
             override fun onFail(o: Any) {
@@ -122,20 +154,7 @@ class MainActivity : AppCompatActivity() {
 
         HttpRequest.getMoneyNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                adapterOfNewsKind.setItems(ArrayList<Item>(Data.moneyNews))
-                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
-                    override fun startEvent() {
-                        Log.i(TAG, "getMoneyNews")
-                    }
-
-                    override fun onEventCompleted() {
-                        adapterOfNewsKind.setItems(ArrayList<Item>(Data.moneyNews))
-                    }
-
-                    override fun onEventFailed() {
-                        Log.i(TAG, "event failed")
-                    }
-                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Data.moneyNews)
+                success(Data.moneyNews, NewsType.MONEY)
             }
 
             override fun onFail(o: Any) {
@@ -145,20 +164,7 @@ class MainActivity : AppCompatActivity() {
 
         HttpRequest.getLifeNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                adapterOfNewsKind.setItems(ArrayList<Item>(Data.lifeNews))
-                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
-                    override fun startEvent() {
-                        Log.i(TAG, "getLifeNews")
-                    }
-
-                    override fun onEventCompleted() {
-                        adapterOfNewsKind.setItems(ArrayList<Item>(Data.lifeNews))
-                    }
-
-                    override fun onEventFailed() {
-                        Log.i(TAG, "event failed")
-                    }
-                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Data.lifeNews)
+                success(Data.lifeNews, NewsType.LIFE)
             }
 
             override fun onFail(o: Any) {
@@ -168,20 +174,7 @@ class MainActivity : AppCompatActivity() {
 
         HttpRequest.getPoliticsNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                adapterOfNewsKind.setItems(ArrayList<Item>(Data.politicsNews))
-                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
-                    override fun startEvent() {
-                        Log.i(TAG, "getPoliticsNews")
-                    }
-
-                    override fun onEventCompleted() {
-                        adapterOfNewsKind.setItems(ArrayList<Item>(Data.politicsNews))
-                    }
-
-                    override fun onEventFailed() {
-                        Log.i(TAG, "event failed")
-                    }
-                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Data.politicsNews)
+                success(Data.politicsNews, NewsType.POLITICS)
             }
 
             override fun onFail(o: Any) {
@@ -191,20 +184,7 @@ class MainActivity : AppCompatActivity() {
 
         HttpRequest.getWorldNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                adapterOfNewsKind.setItems(ArrayList<Item>(Data.worldNews))
-                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
-                    override fun startEvent() {
-                        Log.i(TAG, "getWorldNews")
-                    }
-
-                    override fun onEventCompleted() {
-                        adapterOfNewsKind.setItems(ArrayList<Item>(Data.worldNews))
-                    }
-
-                    override fun onEventFailed() {
-                        Log.i(TAG, "event failed")
-                    }
-                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Data.worldNews)
+                success(Data.worldNews, NewsType.WORLD)
             }
 
             override fun onFail(o: Any) {
@@ -214,20 +194,7 @@ class MainActivity : AppCompatActivity() {
 
         HttpRequest.getCultureNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                adapterOfNewsKind.setItems(ArrayList<Item>(Data.cultureNews))
-                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
-                    override fun startEvent() {
-                        Log.i(TAG, "getCultureNews")
-                    }
-
-                    override fun onEventCompleted() {
-                        adapterOfNewsKind.setItems(ArrayList<Item>(Data.cultureNews))
-                    }
-
-                    override fun onEventFailed() {
-                        Log.i(TAG, "event failed")
-                    }
-                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Data.cultureNews)
+                success(Data.cultureNews, NewsType.CULTURE)
             }
 
             override fun onFail(o: Any) {
@@ -237,20 +204,7 @@ class MainActivity : AppCompatActivity() {
 
         HttpRequest.getItNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                adapterOfNewsKind.setItems(ArrayList<Item>(Data.itNews))
-                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
-                    override fun startEvent() {
-                        Log.i(TAG, "getItNews")
-                    }
-
-                    override fun onEventCompleted() {
-                        adapterOfNewsKind.setItems(ArrayList<Item>(Data.itNews))
-                    }
-
-                    override fun onEventFailed() {
-                        Log.i(TAG, "event failed")
-                    }
-                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Data.itNews)
+                success(Data.itNews, NewsType.IT)
             }
 
             override fun onFail(o: Any) {
@@ -260,20 +214,7 @@ class MainActivity : AppCompatActivity() {
 
         HttpRequest.getDailyNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                adapterOfNewsKind.setItems(ArrayList<Item>(Data.dailyNews))
-                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
-                    override fun startEvent() {
-                        Log.i(TAG, "getDailyNews")
-                    }
-
-                    override fun onEventCompleted() {
-                        adapterOfNewsKind.setItems(ArrayList<Item>(Data.dailyNews))
-                    }
-
-                    override fun onEventFailed() {
-                        Log.i(TAG, "event failed")
-                    }
-                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Data.dailyNews)
+                success(Data.dailyNews, NewsType.DAILY)
             }
 
             override fun onFail(o: Any) {
@@ -283,20 +224,7 @@ class MainActivity : AppCompatActivity() {
 
         HttpRequest.getSportNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                adapterOfNewsKind.setItems(ArrayList<Item>(Data.sportNews))
-                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
-                    override fun startEvent() {
-                        Log.i(TAG, "getSportNews")
-                    }
-
-                    override fun onEventCompleted() {
-                        adapterOfNewsKind.setItems(ArrayList<Item>(Data.sportNews))
-                    }
-
-                    override fun onEventFailed() {
-                        Log.i(TAG, "event failed")
-                    }
-                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Data.sportNews)
+                success(Data.sportNews, NewsType.SPORT)
             }
 
             override fun onFail(o: Any) {
@@ -306,20 +234,7 @@ class MainActivity : AppCompatActivity() {
 
         HttpRequest.getStarNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                adapterOfNewsKind.setItems(ArrayList<Item>(Data.starNews))
-                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
-                    override fun startEvent() {
-                        Log.i(TAG, "getStarNews")
-                    }
-
-                    override fun onEventCompleted() {
-                        adapterOfNewsKind.setItems(ArrayList<Item>(Data.starNews))
-                    }
-
-                    override fun onEventFailed() {
-                        Log.i(TAG, "event failed")
-                    }
-                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Data.starNews)
+                success(Data.starNews, NewsType.STAR)
             }
 
             override fun onFail(o: Any) {

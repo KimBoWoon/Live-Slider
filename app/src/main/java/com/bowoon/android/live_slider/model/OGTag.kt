@@ -1,6 +1,7 @@
 package com.bowoon.android.live_slider.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class OGTag(
     @SerializedName("og:type")
@@ -21,6 +22,6 @@ data class OGTag(
     var author: String?,
     @SerializedName("article:publisher")
     var publisher: String?
-) {
+) : Serializable {
     constructor() : this("", "", "", "", "", "", "", "", "")
 }
