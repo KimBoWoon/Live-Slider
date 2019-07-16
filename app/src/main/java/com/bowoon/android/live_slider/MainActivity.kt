@@ -75,171 +75,42 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun success(items: ArrayList<Item>, type: NewsType) {
-        when (type) {
-            NewsType.MAIN -> {
-                runOnUiThread(object : Runnable {
-                    override fun run() {
-                        adapterOfMajorNews.setItems(items)
-                    }
-                })
-                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
-                    override fun startEvent() {
-                        Log.i(TAG, "getAllNews")
-                    }
-
-                    override fun onEventCompleted() {
-                        runOnUiThread(object : Runnable {
-                            override fun run() {
-                                adapterOfMajorNews.setItems(items)
-                            }
-                        })
-                    }
-
-                    override fun onEventFailed() {
-                        Log.i(TAG, "event failed")
-                    }
-                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, items)
-            }
-
-            else -> {
-                runOnUiThread(object : Runnable {
-                    override fun run() {
-                        adapterOfNewsKind.setItems(items)
-                    }
-                })
-                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
-                    override fun startEvent() {
-                        Log.i(TAG, "getAllNews")
-                    }
-
-                    override fun onEventCompleted() {
-                        runOnUiThread(object : Runnable {
-                            override fun run() {
-                                adapterOfNewsKind.setItems(items)
-                                binding.progressLayout.visibility = View.GONE
-                            }
-                        })
-                    }
-
-                    override fun onEventFailed() {
-                        Log.i(TAG, "event failed")
-                        binding.progressLayout.visibility = View.GONE
-                    }
-                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, items)
-            }
-        }
-    }
-
     private fun request() {
-        HttpRequest.getAllNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                success(Data.allNews, NewsType.ALL)
+        HttpRequest.RSSParserAsyncTask(object : AsyncTaskListener {
+            override fun startEvent() {
+                Log.i(TAG, "Started")
             }
 
-            override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        })
+            override fun onEventCompleted() {
+                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
+                    override fun startEvent() {
+                        Log.i(TAG, "Started")
+                    }
 
-        HttpRequest.getMainNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                success(Data.mainNews, NewsType.MAIN)
-            }
+                    override fun onEventCompleted() {
+                        adapterOfNewsKind.setItems(Data.allNews)
+                        adapterOfNewsKind.setItems(Data.moneyNews)
+                        adapterOfNewsKind.setItems(Data.lifeNews)
+                        adapterOfNewsKind.setItems(Data.politicsNews)
+                        adapterOfNewsKind.setItems(Data.worldNews)
+                        adapterOfNewsKind.setItems(Data.cultureNews)
+                        adapterOfNewsKind.setItems(Data.itNews)
+                        adapterOfNewsKind.setItems(Data.dailyNews)
+                        adapterOfNewsKind.setItems(Data.sportNews)
+                        adapterOfNewsKind.setItems(Data.starNews)
+                        adapterOfMajorNews.setItems(Data.mainNews)
+                        Log.i(TAG, "Completed")
+                    }
 
-            override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        })
-
-        HttpRequest.getMoneyNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                success(Data.moneyNews, NewsType.MONEY)
-            }
-
-            override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        })
-
-        HttpRequest.getLifeNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                success(Data.lifeNews, NewsType.LIFE)
+                    override fun onEventFailed() {
+                        Log.i(TAG, "Failed")
+                    }
+                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
             }
 
-            override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        })
+            override fun onEventFailed() {
 
-        HttpRequest.getPoliticsNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                success(Data.politicsNews, NewsType.POLITICS)
             }
-
-            override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        })
-
-        HttpRequest.getWorldNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                success(Data.worldNews, NewsType.WORLD)
-            }
-
-            override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        })
-
-        HttpRequest.getCultureNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                success(Data.cultureNews, NewsType.CULTURE)
-            }
-
-            override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        })
-
-        HttpRequest.getItNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                success(Data.itNews, NewsType.IT)
-            }
-
-            override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        })
-
-        HttpRequest.getDailyNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                success(Data.dailyNews, NewsType.DAILY)
-            }
-
-            override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        })
-
-        HttpRequest.getSportNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                success(Data.sportNews, NewsType.SPORT)
-            }
-
-            override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        })
-
-        HttpRequest.getStarNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                success(Data.starNews, NewsType.STAR)
-            }
-
-            override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        })
+        }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
     }
 }
