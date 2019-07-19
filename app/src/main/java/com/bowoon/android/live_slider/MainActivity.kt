@@ -3,6 +3,7 @@ package com.bowoon.android.live_slider
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,11 +14,8 @@ import com.bowoon.android.live_slider.adapter.AdapterOfNewsKind
 import com.bowoon.android.live_slider.animation.ViewPagerAnimation
 import com.bowoon.android.live_slider.databinding.ActivityMainBinding
 import com.bowoon.android.live_slider.http.AsyncTaskListener
-import com.bowoon.android.live_slider.http.HttpCallback
 import com.bowoon.android.live_slider.http.HttpRequest
 import com.bowoon.android.live_slider.log.Log
-import com.bowoon.android.live_slider.model.Item
-import com.bowoon.android.live_slider.type.NewsType
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
@@ -25,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapterOfNewsKind: AdapterOfNewsKind
     private lateinit var adapterOfMajorNews: AdapterOfMajorNews
     private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var toolbar: Toolbar
     private val TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,6 +81,18 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onEventCompleted() {
+                adapterOfNewsKind.setItems(Data.allNews)
+                adapterOfNewsKind.setItems(Data.moneyNews)
+                adapterOfNewsKind.setItems(Data.lifeNews)
+                adapterOfNewsKind.setItems(Data.politicsNews)
+                adapterOfNewsKind.setItems(Data.worldNews)
+                adapterOfNewsKind.setItems(Data.cultureNews)
+                adapterOfNewsKind.setItems(Data.itNews)
+                adapterOfNewsKind.setItems(Data.dailyNews)
+                adapterOfNewsKind.setItems(Data.sportNews)
+                adapterOfNewsKind.setItems(Data.starNews)
+                adapterOfMajorNews.setItems(Data.mainNews)
+
                 HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
                     override fun startEvent() {
                         Log.i(TAG, "Started")

@@ -42,7 +42,7 @@ class MajorNewsFragment : Fragment() {
                 .with(context!!)
                 .load(news.ogTag.image)
                 .centerCrop()
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.mipmap.image_not_found)
                 .into(binding.majorNewImage)
         }
     }

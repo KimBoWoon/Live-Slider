@@ -44,7 +44,7 @@ class AdapterOfNews(requestManager: RequestManager) :
         glide
             .load(items!![position].ogTag.image)
             .centerCrop()
-            .placeholder(R.drawable.ic_launcher_background)
+            .placeholder(R.mipmap.image_not_found)
             .into(holder.binding.newsImage)
 
         if (position == itemCount - 1) {
