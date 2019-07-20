@@ -1,12 +1,13 @@
 package com.bowoon.android.live_slider.http
 
+import com.bowoon.android.live_slider.model.Rss
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Url
 
 interface HttpService {
     @GET("/joins_news_list.xml")
-    fun getAllNews(): Call<String>
+    fun getAllNews(): Call<Rss>
 
     @GET("/joins_homenews_list.xml")
     fun getMainNews(): Call<String>

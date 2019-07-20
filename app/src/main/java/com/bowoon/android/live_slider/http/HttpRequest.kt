@@ -1,51 +1,60 @@
 package com.bowoon.android.live_slider.http
 
 import android.os.AsyncTask
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.bowoon.android.live_slider.Data
 import com.bowoon.android.live_slider.log.Log
-import com.bowoon.android.live_slider.model.Channel
-import com.bowoon.android.live_slider.model.Item
-import com.bowoon.android.live_slider.model.OGTag
+import com.bowoon.android.live_slider.model.*
+import com.bowoon.android.live_slider.model.adapter.ChannelTypeAdapter
+import com.bowoon.android.live_slider.model.adapter.ImageTypeAdapter
+import com.bowoon.android.live_slider.model.adapter.MyDateConverter
+import com.bowoon.android.live_slider.model.adapter.RssTypeAdapter
 import com.bowoon.android.live_slider.type.NewsType
+import com.tickaroo.tikxml.TikXml
+import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.parser.Parser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.util.*
 
 object HttpRequest {
-//    private val TAG = "HttpRequest"
-//    private val BASE_URL = "https://rss.joins.com/"
-//    private val client: Retrofit
-//    private val service: HttpService
-//    private lateinit var call: Call<String>
-//
-//    init {
-//        client = Retrofit.Builder()
-//            .baseUrl(BASE_URL)
+    private val TAG = "HttpRequest"
+    private val BASE_URL = "https://rss.joins.com/"
+    private val client: Retrofit
+    private val service: HttpService
+    private lateinit var call: Call<String>
+    private val tikXml: TikXml
+
+    init {
+        tikXml = TikXml.Builder()
+            .addTypeConverter(Date::class.java, MyDateConverter())
+            .addTypeAdapter(Rss::class.java, RssTypeAdapter())
+            .addTypeAdapter(Channel::class.java, ChannelTypeAdapter())
+            .addTypeAdapter(Image::class.java, ImageTypeAdapter())
+            .build()
+        client = Retrofit.Builder()
+            .baseUrl(BASE_URL)
 //            .addConverterFactory(ScalarsConverterFactory.create())
-//            .client(createOkHttpClient())
-//            .build()
-//
-//        service = client.create(HttpService::class.java)
-//    }
-//
-//    private fun createOkHttpClient(): OkHttpClient {
-//        return OkHttpClient.Builder().apply {
-//            addInterceptor(HttpLoggingInterceptor().apply {
-//                level = HttpLoggingInterceptor.Level.NONE
-//            })
-//            retryOnConnectionFailure(true)
-//        }.build()
-//    }
-//
+            .addConverterFactory(TikXmlConverterFactory.create(tikXml))
+            .client(createOkHttpClient())
+            .build()
+
+        service = client.create(HttpService::class.java)
+    }
+
+    private fun createOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder().apply {
+            addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.NONE
+            })
+            retryOnConnectionFailure(true)
+        }.build()
+    }
+
 //    fun xmlParser(body: String, items: ArrayList<Item>) {
 //        val doc = Jsoup.parse(body, "", Parser.xmlParser())
 //        val elem = doc.select("item")
@@ -72,19 +81,21 @@ object HttpRequest {
 //        }
 //    }
 //
-//    fun getAllNews(callback: HttpCallback) {
-//        val call: Call<String> = service.getAllNews()
-//        call.enqueue(object : Callback<String> {
-//            override fun onFailure(call: Call<String>, t: Throwable) {
-//                Log.i(TAG, t.message!!)
-//            }
-//
-//            override fun onResponse(call: Call<String>, response: Response<String>) {
+    fun getAllNews(callback: HttpCallback) {
+        val call: Call<Rss> = service.getAllNews()
+        call.enqueue(object : Callback<Rss> {
+            override fun onFailure(call: Call<Rss>, t: Throwable) {
+                Log.i(TAG, t.message!!)
+            }
+
+            override fun onResponse(call: Call<Rss>, response: Response<Rss>) {
 //                xmlParser(response.body()!!, Data.allNews)
-//                callback.onSuccess(null)
-//            }
-//        })
-//    }
+                Log.i("asdfauoidbhnaoernboiarnvboiarei", "adsiovgnaoibnprwiob")
+                Log.i(TAG, response.body().toString())
+                callback.onSuccess(null)
+            }
+        })
+    }
 //
 //    fun getMainNews(callback: HttpCallback) {
 //        val call: Call<String> = service.getMainNews()

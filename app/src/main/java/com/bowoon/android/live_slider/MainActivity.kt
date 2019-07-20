@@ -14,6 +14,7 @@ import com.bowoon.android.live_slider.adapter.AdapterOfNewsKind
 import com.bowoon.android.live_slider.animation.ViewPagerAnimation
 import com.bowoon.android.live_slider.databinding.ActivityMainBinding
 import com.bowoon.android.live_slider.http.AsyncTaskListener
+import com.bowoon.android.live_slider.http.HttpCallback
 import com.bowoon.android.live_slider.http.HttpRequest
 import com.bowoon.android.live_slider.log.Log
 import com.google.android.material.tabs.TabLayout
@@ -75,53 +76,62 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun request() {
-        HttpRequest.RSSParserAsyncTask(object : AsyncTaskListener {
-            override fun startEvent() {
-                Log.i(TAG, "Started")
-            }
-
-            override fun onEventCompleted() {
-                adapterOfNewsKind.setItems(Data.allNews)
-                adapterOfNewsKind.setItems(Data.moneyNews)
-                adapterOfNewsKind.setItems(Data.lifeNews)
-                adapterOfNewsKind.setItems(Data.politicsNews)
-                adapterOfNewsKind.setItems(Data.worldNews)
-                adapterOfNewsKind.setItems(Data.cultureNews)
-                adapterOfNewsKind.setItems(Data.itNews)
-                adapterOfNewsKind.setItems(Data.dailyNews)
-                adapterOfNewsKind.setItems(Data.sportNews)
-                adapterOfNewsKind.setItems(Data.starNews)
-                adapterOfMajorNews.setItems(Data.mainNews)
-
-                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
-                    override fun startEvent() {
-                        Log.i(TAG, "Started")
-                    }
-
-                    override fun onEventCompleted() {
-                        adapterOfNewsKind.setItems(Data.allNews)
-                        adapterOfNewsKind.setItems(Data.moneyNews)
-                        adapterOfNewsKind.setItems(Data.lifeNews)
-                        adapterOfNewsKind.setItems(Data.politicsNews)
-                        adapterOfNewsKind.setItems(Data.worldNews)
-                        adapterOfNewsKind.setItems(Data.cultureNews)
-                        adapterOfNewsKind.setItems(Data.itNews)
-                        adapterOfNewsKind.setItems(Data.dailyNews)
-                        adapterOfNewsKind.setItems(Data.sportNews)
-                        adapterOfNewsKind.setItems(Data.starNews)
-                        adapterOfMajorNews.setItems(Data.mainNews)
-                        Log.i(TAG, "Completed")
-                    }
-
-                    override fun onEventFailed() {
-                        Log.i(TAG, "Failed")
-                    }
-                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
-            }
-
-            override fun onEventFailed() {
+        HttpRequest.getAllNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
 
             }
-        }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+
+            override fun onFail(o: Any) {
+
+            }
+        })
+//        HttpRequest.RSSParserAsyncTask(object : AsyncTaskListener {
+//            override fun startEvent() {
+//                Log.i(TAG, "Started")
+//            }
+//
+//            override fun onEventCompleted() {
+//                adapterOfNewsKind.setItems(Data.allNews)
+//                adapterOfNewsKind.setItems(Data.moneyNews)
+//                adapterOfNewsKind.setItems(Data.lifeNews)
+//                adapterOfNewsKind.setItems(Data.politicsNews)
+//                adapterOfNewsKind.setItems(Data.worldNews)
+//                adapterOfNewsKind.setItems(Data.cultureNews)
+//                adapterOfNewsKind.setItems(Data.itNews)
+//                adapterOfNewsKind.setItems(Data.dailyNews)
+//                adapterOfNewsKind.setItems(Data.sportNews)
+//                adapterOfNewsKind.setItems(Data.starNews)
+//                adapterOfMajorNews.setItems(Data.mainNews)
+//
+//                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
+//                    override fun startEvent() {
+//                        Log.i(TAG, "Started")
+//                    }
+//
+//                    override fun onEventCompleted() {
+//                        adapterOfNewsKind.setItems(Data.allNews)
+//                        adapterOfNewsKind.setItems(Data.moneyNews)
+//                        adapterOfNewsKind.setItems(Data.lifeNews)
+//                        adapterOfNewsKind.setItems(Data.politicsNews)
+//                        adapterOfNewsKind.setItems(Data.worldNews)
+//                        adapterOfNewsKind.setItems(Data.cultureNews)
+//                        adapterOfNewsKind.setItems(Data.itNews)
+//                        adapterOfNewsKind.setItems(Data.dailyNews)
+//                        adapterOfNewsKind.setItems(Data.sportNews)
+//                        adapterOfNewsKind.setItems(Data.starNews)
+//                        adapterOfMajorNews.setItems(Data.mainNews)
+//                        Log.i(TAG, "Completed")
+//                    }
+//
+//                    override fun onEventFailed() {
+//                        Log.i(TAG, "Failed")
+//                    }
+//                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+//            }
+//
+//            override fun onEventFailed() {
+//
+//            }
+//        }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
     }
 }

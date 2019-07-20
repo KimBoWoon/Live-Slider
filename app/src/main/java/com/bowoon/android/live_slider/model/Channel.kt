@@ -1,22 +1,29 @@
 package com.bowoon.android.live_slider.model
 
-import com.google.gson.annotations.SerializedName
+import com.tickaroo.tikxml.annotation.Element
+import com.tickaroo.tikxml.annotation.PropertyElement
+import com.tickaroo.tikxml.annotation.Xml
 
+@Xml
 data class Channel(
-    @SerializedName("title")
+    @PropertyElement
     var title: String,
-    @SerializedName("link")
+    @PropertyElement
     var link: String,
-    @SerializedName("language")
+    @PropertyElement
     var language: String,
-    @SerializedName("copyright")
+    @PropertyElement
     var copyright: String,
-    @SerializedName("pubDate")
+    @PropertyElement
     var pubDate: String,
-    @SerializedName("lastBuildDate")
+    @PropertyElement
     var lastBuildDate: String,
-    @SerializedName("item")
+    @PropertyElement
+    var description: String,
+    @Element
+    var image: Image,
+    @PropertyElement
     var item: ArrayList<Item>
 ) {
-    constructor() : this("", "", "", "", "", "", ArrayList<Item>())
+    constructor() : this("", "", "", "", "", "", "", Image(), ArrayList<Item>())
 }
