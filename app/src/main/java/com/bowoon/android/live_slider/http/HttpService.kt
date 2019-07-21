@@ -10,34 +10,34 @@ interface HttpService {
     fun getAllNews(): Call<Rss>
 
     @GET("/joins_homenews_list.xml")
-    fun getMainNews(): Call<String>
+    fun getMainNews(): Call<Rss>
 
     @GET("/joins_money_list.xml")
-    fun getMoneyNews(): Call<String>
+    fun getMoneyNews(): Call<Rss>
 
     @GET("/joins_life_list.xml")
-    fun getLifeNews(): Call<String>
+    fun getLifeNews(): Call<Rss>
 
     @GET("/joins_politics_list.xml")
-    fun getPoliticsNews(): Call<String>
+    fun getPoliticsNews(): Call<Rss>
 
     @GET("/joins_world_list.xml")
-    fun getWorldNews(): Call<String>
+    fun getWorldNews(): Call<Rss>
 
     @GET("/joins_culture_list.xml")
-    fun getCultureNews(): Call<String>
+    fun getCultureNews(): Call<Rss>
 
     @GET("/joins_it_list.xml")
-    fun getITNews(): Call<String>
+    fun getITNews(): Call<Rss>
 
     @GET("/news/joins_joongangdaily_news.xml")
-    fun getDailyNews(): Call<String>
+    fun getDailyNews(): Call<Rss>
 
     @GET("/joins_sports_list.xml")
-    fun getSportsNews(): Call<String>
+    fun getSportsNews(): Call<Rss>
 
     @GET("/joins_star_list.xml")
-    fun getStarNews(): Call<String>
+    fun getStarNews(): Call<Rss>
 
 //    @GET
 //    fun getOGTag(@Url url: String): Call<String>

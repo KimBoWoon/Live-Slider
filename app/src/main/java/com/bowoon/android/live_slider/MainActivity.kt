@@ -1,9 +1,6 @@
 package com.bowoon.android.live_slider
 
-import android.os.AsyncTask
 import android.os.Bundle
-import android.view.View
-import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,10 +10,9 @@ import com.bowoon.android.live_slider.adapter.AdapterOfMajorNews
 import com.bowoon.android.live_slider.adapter.AdapterOfNewsKind
 import com.bowoon.android.live_slider.animation.ViewPagerAnimation
 import com.bowoon.android.live_slider.databinding.ActivityMainBinding
-import com.bowoon.android.live_slider.http.AsyncTaskListener
 import com.bowoon.android.live_slider.http.HttpCallback
 import com.bowoon.android.live_slider.http.HttpRequest
-import com.bowoon.android.live_slider.log.Log
+import com.bowoon.android.live_slider.model.Rss
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
@@ -24,7 +20,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapterOfNewsKind: AdapterOfNewsKind
     private lateinit var adapterOfMajorNews: AdapterOfMajorNews
     private lateinit var layoutManager: LinearLayoutManager
-    private lateinit var toolbar: Toolbar
     private val TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,12 +31,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
-        adapterOfNewsKind = AdapterOfNewsKind(supportFragmentManager, lifecycle)
-        binding.mainKindOfNews.adapter = adapterOfNewsKind
-        adapterOfMajorNews = AdapterOfMajorNews(supportFragmentManager, lifecycle)
-        binding.mainMajorNews.adapter = adapterOfMajorNews
-        binding.mainMajorNews.setPageTransformer(ViewPagerAnimation())
 
         binding.mainKindOfNewsTab.addTab(binding.mainKindOfNewsTab.newTab().setText("전체"))
         binding.mainKindOfNewsTab.addTab(binding.mainKindOfNewsTab.newTab().setText("경제"))
@@ -53,6 +42,13 @@ class MainActivity : AppCompatActivity() {
         binding.mainKindOfNewsTab.addTab(binding.mainKindOfNewsTab.newTab().setText("중앙데일리"))
         binding.mainKindOfNewsTab.addTab(binding.mainKindOfNewsTab.newTab().setText("스포츠"))
         binding.mainKindOfNewsTab.addTab(binding.mainKindOfNewsTab.newTab().setText("연예"))
+
+        layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
+        adapterOfMajorNews = AdapterOfMajorNews(supportFragmentManager, lifecycle)
+        binding.mainMajorNews.adapter = adapterOfMajorNews
+        binding.mainMajorNews.setPageTransformer(ViewPagerAnimation())
+        adapterOfNewsKind = AdapterOfNewsKind(binding.mainKindOfNewsTab.tabCount, supportFragmentManager, lifecycle)
+        binding.mainKindOfNews.adapter = adapterOfNewsKind
 
         binding.mainKindOfNews.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -78,60 +74,157 @@ class MainActivity : AppCompatActivity() {
     private fun request() {
         HttpRequest.getAllNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.allNews.add(item)
+                    }
+                }
             }
 
             override fun onFail(o: Any) {
 
             }
         })
-//        HttpRequest.RSSParserAsyncTask(object : AsyncTaskListener {
-//            override fun startEvent() {
-//                Log.i(TAG, "Started")
-//            }
-//
-//            override fun onEventCompleted() {
-//                adapterOfNewsKind.setItems(Data.allNews)
-//                adapterOfNewsKind.setItems(Data.moneyNews)
-//                adapterOfNewsKind.setItems(Data.lifeNews)
-//                adapterOfNewsKind.setItems(Data.politicsNews)
-//                adapterOfNewsKind.setItems(Data.worldNews)
-//                adapterOfNewsKind.setItems(Data.cultureNews)
-//                adapterOfNewsKind.setItems(Data.itNews)
-//                adapterOfNewsKind.setItems(Data.dailyNews)
-//                adapterOfNewsKind.setItems(Data.sportNews)
-//                adapterOfNewsKind.setItems(Data.starNews)
-//                adapterOfMajorNews.setItems(Data.mainNews)
-//
-//                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
-//                    override fun startEvent() {
-//                        Log.i(TAG, "Started")
-//                    }
-//
-//                    override fun onEventCompleted() {
-//                        adapterOfNewsKind.setItems(Data.allNews)
-//                        adapterOfNewsKind.setItems(Data.moneyNews)
-//                        adapterOfNewsKind.setItems(Data.lifeNews)
-//                        adapterOfNewsKind.setItems(Data.politicsNews)
-//                        adapterOfNewsKind.setItems(Data.worldNews)
-//                        adapterOfNewsKind.setItems(Data.cultureNews)
-//                        adapterOfNewsKind.setItems(Data.itNews)
-//                        adapterOfNewsKind.setItems(Data.dailyNews)
-//                        adapterOfNewsKind.setItems(Data.sportNews)
-//                        adapterOfNewsKind.setItems(Data.starNews)
-//                        adapterOfMajorNews.setItems(Data.mainNews)
-//                        Log.i(TAG, "Completed")
-//                    }
-//
-//                    override fun onEventFailed() {
-//                        Log.i(TAG, "Failed")
-//                    }
-//                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
-//            }
-//
-//            override fun onEventFailed() {
-//
-//            }
-//        }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+
+        HttpRequest.getMainNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.mainNews.add(item)
+                    }
+                    adapterOfMajorNews.setItems(Data.mainNews)
+                }
+            }
+
+            override fun onFail(o: Any) {
+
+            }
+        })
+
+        HttpRequest.getMoneyNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.moneyNews.add(item)
+                    }
+                }
+            }
+
+            override fun onFail(o: Any) {
+
+            }
+        })
+
+        HttpRequest.getLifeNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.lifeNews.add(item)
+                    }
+                }
+            }
+
+            override fun onFail(o: Any) {
+
+            }
+        })
+
+        HttpRequest.getPoliticsNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.politicsNews.add(item)
+                    }
+                }
+            }
+
+            override fun onFail(o: Any) {
+
+            }
+        })
+
+        HttpRequest.getWorldNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.worldNews.add(item)
+                    }
+                }
+            }
+
+            override fun onFail(o: Any) {
+
+            }
+        })
+
+        HttpRequest.getCultureNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.cultureNews.add(item)
+                    }
+                }
+            }
+
+            override fun onFail(o: Any) {
+
+            }
+        })
+
+        HttpRequest.getItNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.itNews.add(item)
+                    }
+                }
+            }
+
+            override fun onFail(o: Any) {
+
+            }
+        })
+
+        HttpRequest.getDailyNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.dailyNews.add(item)
+                    }
+                }
+            }
+
+            override fun onFail(o: Any) {
+
+            }
+        })
+
+        HttpRequest.getSportNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.sportNews.add(item)
+                    }
+                }
+            }
+
+            override fun onFail(o: Any) {
+
+            }
+        })
+
+        HttpRequest.getStarNews(object : HttpCallback {
+            override fun onSuccess(o: Any?) {
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.starNews.add(item)
+                    }
+                }
+            }
+
+            override fun onFail(o: Any) {
+
+            }
+        })
     }
 }

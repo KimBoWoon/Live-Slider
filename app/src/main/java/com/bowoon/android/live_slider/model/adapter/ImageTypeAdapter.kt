@@ -12,8 +12,14 @@ class ImageTypeAdapter : TypeAdapter<Image> {
         val image: Image = Image()
         while (reader!!.hasElement()) {
             reader.beginElement()
-            Log.i("TypeAdapter", reader.nextElementName())
-            Log.i("image", reader.nextTextContent())
+            when (reader.nextElementName()) {
+                "title" -> image.title = reader.nextTextContent()
+                "url" -> image.url = reader.nextTextContent()
+                "link" -> image.link = reader.nextTextContent()
+                else -> {
+                    Log.i("Image", "not found xml element")
+                }
+            }
             reader.endElement()
         }
         return image
