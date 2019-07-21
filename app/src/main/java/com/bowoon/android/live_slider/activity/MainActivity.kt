@@ -1,23 +1,26 @@
-package com.bowoon.android.live_slider
+package com.bowoon.android.live_slider.activity
 
-import android.os.AsyncTask
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.bowoon.android.live_slider.data.Data
+import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.adapter.AdapterOfMajorNews
 import com.bowoon.android.live_slider.adapter.AdapterOfNewsKind
 import com.bowoon.android.live_slider.animation.ViewPagerAnimation
 import com.bowoon.android.live_slider.databinding.ActivityMainBinding
-import com.bowoon.android.live_slider.http.AsyncTaskListener
 import com.bowoon.android.live_slider.http.HttpCallback
 import com.bowoon.android.live_slider.http.HttpRequest
 import com.bowoon.android.live_slider.log.Log
 import com.bowoon.android.live_slider.model.Item
-import com.bowoon.android.live_slider.type.NewsType
+import com.bowoon.android.live_slider.model.Rss
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
@@ -36,12 +39,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
-        adapterOfNewsKind = AdapterOfNewsKind(supportFragmentManager, lifecycle)
-        binding.mainKindOfNews.adapter = adapterOfNewsKind
-        adapterOfMajorNews = AdapterOfMajorNews(supportFragmentManager, lifecycle)
-        binding.mainMajorNews.adapter = adapterOfMajorNews
-        binding.mainMajorNews.setPageTransformer(ViewPagerAnimation())
 
         binding.mainKindOfNewsTab.addTab(binding.mainKindOfNewsTab.newTab().setText("전체"))
         binding.mainKindOfNewsTab.addTab(binding.mainKindOfNewsTab.newTab().setText("경제"))
@@ -53,6 +50,13 @@ class MainActivity : AppCompatActivity() {
         binding.mainKindOfNewsTab.addTab(binding.mainKindOfNewsTab.newTab().setText("중앙데일리"))
         binding.mainKindOfNewsTab.addTab(binding.mainKindOfNewsTab.newTab().setText("스포츠"))
         binding.mainKindOfNewsTab.addTab(binding.mainKindOfNewsTab.newTab().setText("연예"))
+
+        layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
+        adapterOfMajorNews = AdapterOfMajorNews(supportFragmentManager, lifecycle)
+        binding.mainMajorNews.adapter = adapterOfMajorNews
+        binding.mainMajorNews.setPageTransformer(ViewPagerAnimation())
+        adapterOfNewsKind = AdapterOfNewsKind(binding.mainKindOfNewsTab.tabCount, supportFragmentManager, lifecycle)
+        binding.mainKindOfNews.adapter = adapterOfNewsKind
 
         binding.mainKindOfNews.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -75,170 +79,201 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun success(items: ArrayList<Item>, type: NewsType) {
-        when (type) {
-            NewsType.MAIN -> {
-                runOnUiThread(object : Runnable {
-                    override fun run() {
-                        adapterOfMajorNews.setItems(items)
-                    }
-                })
-                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
-                    override fun startEvent() {
-                        Log.i(TAG, "getAllNews")
-                    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        val searchView: SearchView = (menu!!.findItem(R.id.action_search).actionView) as SearchView
+        searchView.maxWidth = Integer.MAX_VALUE
+        searchView.queryHint = "검색어를 입력하세요."
 
-                    override fun onEventCompleted() {
-                        runOnUiThread(object : Runnable {
-                            override fun run() {
-                                adapterOfMajorNews.setItems(items)
-                            }
-                        })
-                    }
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Log.i(TAG, query!!)
+                val result = ArrayList<Item>()
 
-                    override fun onEventFailed() {
-                        Log.i(TAG, "event failed")
+                for (item in Data.allNews) {
+                    if (item.title.contains(query)) {
+                        result.add(item)
                     }
-                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, items)
+                }
+
+                val intent = Intent(this@MainActivity, SearchResultActivity::class.java)
+                intent.putExtra("result", result)
+                startActivity(intent)
+
+                return false
             }
 
-            else -> {
-                runOnUiThread(object : Runnable {
-                    override fun run() {
-                        adapterOfNewsKind.setItems(items)
-                    }
-                })
-                HttpRequest.OGTagAsyncTask(object : AsyncTaskListener {
-                    override fun startEvent() {
-                        Log.i(TAG, "getAllNews")
-                    }
-
-                    override fun onEventCompleted() {
-                        runOnUiThread(object : Runnable {
-                            override fun run() {
-                                adapterOfNewsKind.setItems(items)
-                                binding.progressLayout.visibility = View.GONE
-                            }
-                        })
-                    }
-
-                    override fun onEventFailed() {
-                        Log.i(TAG, "event failed")
-                        binding.progressLayout.visibility = View.GONE
-                    }
-                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, items)
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
             }
+        })
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item!!.itemId == R.id.action_search) {
+            Log.i(TAG, "action_search")
+            return true
         }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun request() {
         HttpRequest.getAllNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                success(Data.allNews, NewsType.ALL)
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.allNews.add(item)
+                    }
+                }
             }
 
             override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
         })
 
         HttpRequest.getMainNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                success(Data.mainNews, NewsType.MAIN)
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.mainNews.add(item)
+                    }
+                    adapterOfMajorNews.setItems(Data.mainNews)
+                }
             }
 
             override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
         })
 
         HttpRequest.getMoneyNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                success(Data.moneyNews, NewsType.MONEY)
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.moneyNews.add(item)
+                    }
+                }
             }
 
             override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
         })
 
         HttpRequest.getLifeNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                success(Data.lifeNews, NewsType.LIFE)
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.lifeNews.add(item)
+                    }
+                }
             }
 
             override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
         })
 
         HttpRequest.getPoliticsNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                success(Data.politicsNews, NewsType.POLITICS)
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.politicsNews.add(item)
+                    }
+                }
             }
 
             override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
         })
 
         HttpRequest.getWorldNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                success(Data.worldNews, NewsType.WORLD)
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.worldNews.add(item)
+                    }
+                }
             }
 
             override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
         })
 
         HttpRequest.getCultureNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                success(Data.cultureNews, NewsType.CULTURE)
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.cultureNews.add(item)
+                    }
+                }
             }
 
             override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
         })
 
         HttpRequest.getItNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                success(Data.itNews, NewsType.IT)
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.itNews.add(item)
+                    }
+                }
             }
 
             override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
         })
 
         HttpRequest.getDailyNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                success(Data.dailyNews, NewsType.DAILY)
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.dailyNews.add(item)
+                    }
+                }
             }
 
             override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
         })
 
         HttpRequest.getSportNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                success(Data.sportNews, NewsType.SPORT)
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.sportNews.add(item)
+                    }
+                }
             }
 
             override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
         })
 
         HttpRequest.getStarNews(object : HttpCallback {
             override fun onSuccess(o: Any?) {
-                success(Data.starNews, NewsType.STAR)
+                if (o is Rss) {
+                    for (item in o.channel.item) {
+                        Data.starNews.add(item)
+                    }
+                }
             }
 
             override fun onFail(o: Any) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
         })
     }

@@ -1,7 +1,7 @@
 package com.bowoon.android.live_slider.adapter
 
 import androidx.recyclerview.widget.RecyclerView
-import com.bowoon.android.live_slider.Data
+import com.bowoon.android.live_slider.data.Data
 import com.bowoon.android.live_slider.type.NewsType
 import com.bowoon.android.live_slider.type.NewsType.*
 import com.bowoon.android.live_slider.model.Item

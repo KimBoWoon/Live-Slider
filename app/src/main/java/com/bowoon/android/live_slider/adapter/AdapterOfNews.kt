@@ -1,12 +1,11 @@
 package com.bowoon.android.live_slider.adapter
 
-import android.graphics.Color
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bowoon.android.live_slider.Data
+import com.bowoon.android.live_slider.data.Data
 import com.bowoon.android.live_slider.type.NewsType
 import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.databinding.NewsItemBinding
@@ -44,21 +43,21 @@ class AdapterOfNews(requestManager: RequestManager) :
         glide
             .load(items!![position].ogTag.image)
             .centerCrop()
-            .placeholder(R.drawable.ic_launcher_background)
+            .placeholder(R.mipmap.image_not_found)
             .into(holder.binding.newsImage)
 
-        if (position == itemCount - 1) {
-            if (position + 5 < Data.allNews.size) {
-                EndlessScrollListener.onLoadMore(position + 1, NewsType.ALL, items!!)
-            } else {
-                EndlessScrollListener.onLoadMore(position + 1, Data.allNews.size, NewsType.ALL, items!!)
-            }
-            Handler().post(object : Runnable {
-                override fun run() {
-                    notifyItemRangeChanged(position + 1, 5)
-                }
-            })
-        }
+//        if (position == itemCount - 1) {
+//            if (position + 5 < Data.allNews.size) {
+//                EndlessScrollListener.onLoadMore(position + 1, NewsType.ALL, items!!)
+//            } else {
+//                EndlessScrollListener.onLoadMore(position + 1, Data.allNews.size, NewsType.ALL, items!!)
+//            }
+//            Handler().post(object : Runnable {
+//                override fun run() {
+//                    notifyItemRangeChanged(position + 1, 5)
+//                }
+//            })
+//        }
     }
 
     fun setItems(items: ArrayList<Item>) {

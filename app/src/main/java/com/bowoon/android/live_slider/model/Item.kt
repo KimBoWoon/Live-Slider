@@ -1,18 +1,18 @@
 package com.bowoon.android.live_slider.model
 
-import com.google.gson.annotations.SerializedName
+import com.tickaroo.tikxml.annotation.PropertyElement
 import java.io.Serializable
 
 data class Item(
-    @SerializedName("title")
+    @PropertyElement
     var title: String,
-    @SerializedName("link")
+    @PropertyElement
     var link: String,
-    @SerializedName("description")
+    @PropertyElement
     var description: String,
-    @SerializedName("author")
+    @PropertyElement
     var author: String,
-    @SerializedName("pubDate")
+    @PropertyElement
     var pubDate: String,
     var ogTag: OGTag = OGTag()
 ) : Serializable {

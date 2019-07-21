@@ -8,22 +8,22 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bowoon.android.live_slider.Data
+import com.bowoon.android.live_slider.data.Data
 import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.adapter.AdapterOfNews
-import com.bowoon.android.live_slider.databinding.FragmentItemBinding
+import com.bowoon.android.live_slider.databinding.NewsItemViewBinding
 import com.bowoon.android.live_slider.type.NewsType
 import com.bumptech.glide.Glide
 
 class NewsFragment : Fragment() {
-    private lateinit var binding: FragmentItemBinding
+    private lateinit var binding: NewsItemViewBinding
     private lateinit var adapterOfNews: AdapterOfNews
     private lateinit var layoutManager: LinearLayoutManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate<FragmentItemBinding>(
+        binding = DataBindingUtil.inflate<NewsItemViewBinding>(
             inflater,
-            R.layout.fragment_item,
+            R.layout.news_item_view,
             container,
             false
         ).apply {

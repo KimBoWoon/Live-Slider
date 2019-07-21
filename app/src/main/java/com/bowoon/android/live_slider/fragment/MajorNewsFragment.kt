@@ -7,22 +7,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import com.bowoon.android.live_slider.R
-import com.bowoon.android.live_slider.databinding.MainNewsItemBinding
-import com.bowoon.android.live_slider.http.HttpCallback
-import com.bowoon.android.live_slider.http.HttpRequest
-import com.bowoon.android.live_slider.log.Log
+import com.bowoon.android.live_slider.databinding.MajorNewsItemBinding
 import com.bowoon.android.live_slider.model.Item
-import com.bowoon.android.live_slider.model.OGTag
 import com.bumptech.glide.Glide
 
 
 class MajorNewsFragment : Fragment() {
-    private lateinit var binding: MainNewsItemBinding
+    private lateinit var binding: MajorNewsItemBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate<MainNewsItemBinding>(
+        binding = DataBindingUtil.inflate<MajorNewsItemBinding>(
             inflater,
-            R.layout.main_news_item,
+            R.layout.major_news_item,
             container,
             false
         )
@@ -42,7 +38,7 @@ class MajorNewsFragment : Fragment() {
                 .with(context!!)
                 .load(news.ogTag.image)
                 .centerCrop()
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.mipmap.image_not_found)
                 .into(binding.majorNewImage)
         }
     }
