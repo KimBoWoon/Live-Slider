@@ -1,4 +1,4 @@
-package com.bowoon.android.live_slider
+package com.bowoon.android.live_slider.data
 
 import com.bowoon.android.live_slider.model.Item
 import com.bowoon.android.live_slider.type.NewsType

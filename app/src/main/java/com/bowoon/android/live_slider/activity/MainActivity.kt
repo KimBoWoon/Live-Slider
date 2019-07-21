@@ -1,17 +1,25 @@
-package com.bowoon.android.live_slider
+package com.bowoon.android.live_slider.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.bowoon.android.live_slider.data.Data
+import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.adapter.AdapterOfMajorNews
 import com.bowoon.android.live_slider.adapter.AdapterOfNewsKind
 import com.bowoon.android.live_slider.animation.ViewPagerAnimation
 import com.bowoon.android.live_slider.databinding.ActivityMainBinding
 import com.bowoon.android.live_slider.http.HttpCallback
 import com.bowoon.android.live_slider.http.HttpRequest
+import com.bowoon.android.live_slider.log.Log
+import com.bowoon.android.live_slider.model.Item
 import com.bowoon.android.live_slider.model.Rss
 import com.google.android.material.tabs.TabLayout
 
@@ -69,6 +77,48 @@ class MainActivity : AppCompatActivity() {
                 binding.mainKindOfNews.currentItem = tab!!.position
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        val searchView: SearchView = (menu!!.findItem(R.id.action_search).actionView) as SearchView
+        searchView.maxWidth = Integer.MAX_VALUE
+        searchView.queryHint = "검색어를 입력하세요."
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Log.i(TAG, query!!)
+                val result = ArrayList<Item>()
+
+                for (item in Data.allNews) {
+                    if (item.title.contains(query)) {
+                        result.add(item)
+                    }
+                }
+
+                val intent = Intent(this@MainActivity, SearchResultActivity::class.java)
+                intent.putExtra("result", result)
+                startActivity(intent)
+
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item!!.itemId == R.id.action_search) {
+            Log.i(TAG, "action_search")
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun request() {

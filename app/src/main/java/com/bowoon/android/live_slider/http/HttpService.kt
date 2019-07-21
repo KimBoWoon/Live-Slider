@@ -1,5 +1,6 @@
 package com.bowoon.android.live_slider.http
 
+import com.bowoon.android.live_slider.model.OGTag
 import com.bowoon.android.live_slider.model.Rss
 import retrofit2.Call
 import retrofit2.http.GET
@@ -39,6 +40,6 @@ interface HttpService {
     @GET("/joins_star_list.xml")
     fun getStarNews(): Call<Rss>
 
-//    @GET
-//    fun getOGTag(@Url url: String): Call<String>
+    @GET
+    fun getOGTag(@Url url: String): Call<OGTag>
 }

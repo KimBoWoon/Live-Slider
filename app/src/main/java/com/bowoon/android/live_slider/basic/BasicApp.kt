@@ -1,4 +1,4 @@
-package com.bowoon.android.live_slider
+package com.bowoon.android.live_slider.basic
 
 import android.app.Application
 import com.bumptech.glide.Glide
