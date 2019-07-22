@@ -10,11 +10,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.bowoon.android.live_slider.data.Data
 import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.adapter.AdapterOfMajorNews
 import com.bowoon.android.live_slider.adapter.AdapterOfNewsKind
 import com.bowoon.android.live_slider.animation.ViewPagerAnimation
+import com.bowoon.android.live_slider.data.Data
 import com.bowoon.android.live_slider.databinding.ActivityMainBinding
 import com.bowoon.android.live_slider.http.HttpCallback
 import com.bowoon.android.live_slider.http.HttpRequest
@@ -127,6 +127,15 @@ class MainActivity : AppCompatActivity() {
                 if (o is Rss) {
                     for (item in o.channel.item) {
                         Data.allNews.add(item)
+                        HttpRequest.getOGTag(Data.allNews[Data.allNews.size - 1], object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+//                                Log.i(TAG, o.toString())
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
                     }
                 }
             }
@@ -141,6 +150,15 @@ class MainActivity : AppCompatActivity() {
                 if (o is Rss) {
                     for (item in o.channel.item) {
                         Data.mainNews.add(item)
+                        HttpRequest.getOGTag(Data.mainNews[Data.mainNews.size - 1], object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+//                                Log.i(TAG, o.toString())
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
                     }
                     adapterOfMajorNews.setItems(Data.mainNews)
                 }
@@ -156,6 +174,15 @@ class MainActivity : AppCompatActivity() {
                 if (o is Rss) {
                     for (item in o.channel.item) {
                         Data.moneyNews.add(item)
+                        HttpRequest.getOGTag(Data.moneyNews[Data.moneyNews.size - 1], object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+//                                Log.i(TAG, o.toString())
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
                     }
                 }
             }
@@ -170,6 +197,15 @@ class MainActivity : AppCompatActivity() {
                 if (o is Rss) {
                     for (item in o.channel.item) {
                         Data.lifeNews.add(item)
+                        HttpRequest.getOGTag(Data.lifeNews[Data.lifeNews.size - 1], object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+//                                Log.i(TAG, o.toString())
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
                     }
                 }
             }
@@ -184,6 +220,15 @@ class MainActivity : AppCompatActivity() {
                 if (o is Rss) {
                     for (item in o.channel.item) {
                         Data.politicsNews.add(item)
+                        HttpRequest.getOGTag(Data.politicsNews[Data.politicsNews.size - 1], object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+//                                Log.i(TAG, o.toString())
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
                     }
                 }
             }
@@ -198,6 +243,15 @@ class MainActivity : AppCompatActivity() {
                 if (o is Rss) {
                     for (item in o.channel.item) {
                         Data.worldNews.add(item)
+                        HttpRequest.getOGTag(Data.worldNews[Data.worldNews.size - 1], object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+//                                Log.i(TAG, o.toString())
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
                     }
                 }
             }
@@ -212,6 +266,15 @@ class MainActivity : AppCompatActivity() {
                 if (o is Rss) {
                     for (item in o.channel.item) {
                         Data.cultureNews.add(item)
+                        HttpRequest.getOGTag(Data.cultureNews[Data.cultureNews.size - 1], object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+//                                Log.i(TAG, o.toString())
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
                     }
                 }
             }
@@ -226,6 +289,15 @@ class MainActivity : AppCompatActivity() {
                 if (o is Rss) {
                     for (item in o.channel.item) {
                         Data.itNews.add(item)
+                        HttpRequest.getOGTag(Data.itNews[Data.itNews.size - 1], object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+//                                Log.i(TAG, o.toString())
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
                     }
                 }
             }
@@ -240,6 +312,15 @@ class MainActivity : AppCompatActivity() {
                 if (o is Rss) {
                     for (item in o.channel.item) {
                         Data.dailyNews.add(item)
+                        HttpRequest.getOGTag(Data.dailyNews[Data.dailyNews.size - 1], object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+//                                Log.i(TAG, o.toString())
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
                     }
                 }
             }
@@ -254,6 +335,15 @@ class MainActivity : AppCompatActivity() {
                 if (o is Rss) {
                     for (item in o.channel.item) {
                         Data.sportNews.add(item)
+                        HttpRequest.getOGTag(Data.sportNews[Data.sportNews.size - 1], object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+//                                Log.i(TAG, o.toString())
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
                     }
                 }
             }
@@ -268,6 +358,15 @@ class MainActivity : AppCompatActivity() {
                 if (o is Rss) {
                     for (item in o.channel.item) {
                         Data.starNews.add(item)
+                        HttpRequest.getOGTag(Data.starNews[Data.starNews.size - 1], object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+//                                Log.i(TAG, o.toString())
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
                     }
                 }
             }

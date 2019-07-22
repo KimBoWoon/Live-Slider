@@ -1,12 +1,9 @@
 package com.bowoon.android.live_slider.adapter
 
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bowoon.android.live_slider.data.Data
-import com.bowoon.android.live_slider.type.NewsType
 import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.databinding.NewsItemBinding
 import com.bowoon.android.live_slider.model.Item

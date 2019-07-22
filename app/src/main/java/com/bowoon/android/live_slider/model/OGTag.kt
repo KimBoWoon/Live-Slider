@@ -1,26 +1,26 @@
 package com.bowoon.android.live_slider.model
 
-import com.tickaroo.tikxml.annotation.PropertyElement
+import pl.droidsonroids.jspoon.annotation.Selector
 import java.io.Serializable
 
 data class OGTag(
-    @PropertyElement
+    @Selector("meta[property=og:type]", attr = "content")
     var type: String?,
-    @PropertyElement
+    @Selector("meta[property=og:url]", attr = "content")
     var url: String?,
-    @PropertyElement
+    @Selector("meta[property=og:title]", attr = "content")
     var title: String?,
-    @PropertyElement
+    @Selector("meta[property=og:description]", attr = "content")
     var description: String?,
-    @PropertyElement
+    @Selector("meta[property=og:image]", attr = "content")
     var image: String?,
-    @PropertyElement
+    @Selector("meta[property=og:site_name]", attr = "content")
     var siteName: String?,
-    @PropertyElement
+    @Selector("meta[property=og:locale]", attr = "content")
     var locale: String?,
-    @PropertyElement
+    @Selector("meta[property=article:author]", attr = "content")
     var author: String?,
-    @PropertyElement
+    @Selector("meta[property=article:publisher]", attr = "content")
     var publisher: String?
 ) : Serializable {
     constructor() : this("", "", "", "", "", "", "", "", "")

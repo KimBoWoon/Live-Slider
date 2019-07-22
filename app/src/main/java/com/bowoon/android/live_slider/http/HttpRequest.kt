@@ -7,6 +7,8 @@ import com.tickaroo.tikxml.TikXml
 import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import pl.droidsonroids.jspoon.Jspoon
+import pl.droidsonroids.retrofit2.JspoonConverterFactory
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,8 +19,10 @@ import java.util.concurrent.TimeUnit
 object HttpRequest {
     private const val TAG = "HttpRequest"
     private const val BASE_URL = "https://rss.joins.com/"
-    private val client: Retrofit
-    private val service: HttpService
+    private val xmlRetrofit: Retrofit
+    private val xmlService: HttpService
+    private val htmlRetrofit: Retrofit
+    private val htmlService: HttpService
     private lateinit var call: Call<Rss>
     private val tikXml: TikXml
 
@@ -29,16 +33,23 @@ object HttpRequest {
             .addTypeAdapter(Channel::class.java, ChannelTypeAdapter())
             .addTypeAdapter(Image::class.java, ImageTypeAdapter())
             .addTypeAdapter(Item::class.java, ItemTypeAdapter())
-            .addTypeAdapter(OGTag::class.java, OGTagTypeAdapter())
             .build()
 
-        client = Retrofit.Builder()
+        xmlRetrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(TikXmlConverterFactory.create(tikXml))
             .client(createOkHttpClient())
             .build()
 
-        service = client.create(HttpService::class.java)
+        xmlService = xmlRetrofit.create(HttpService::class.java)
+
+        htmlRetrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(JspoonConverterFactory.create())
+            .client(createOkHttpClient())
+            .build()
+
+        htmlService = htmlRetrofit.create(HttpService::class.java)
     }
 
     private fun createOkHttpClient(): OkHttpClient {
@@ -54,7 +65,7 @@ object HttpRequest {
     }
 
     fun getAllNews(callback: HttpCallback) {
-        call = service.getAllNews()
+        call = xmlService.getAllNews()
         call.enqueue(object : Callback<Rss> {
             override fun onFailure(call: Call<Rss>, t: Throwable) {
                 Log.i(TAG, t.message!!)
@@ -67,7 +78,7 @@ object HttpRequest {
     }
 
     fun getMainNews(callback: HttpCallback) {
-        call = service.getMainNews()
+        call = xmlService.getMainNews()
         call.enqueue(object : Callback<Rss> {
             override fun onFailure(call: Call<Rss>, t: Throwable) {
                 Log.i(TAG, t.message!!)
@@ -80,7 +91,7 @@ object HttpRequest {
     }
 
     fun getMoneyNews(callback: HttpCallback) {
-        call = service.getMoneyNews()
+        call = xmlService.getMoneyNews()
         call.enqueue(object : Callback<Rss> {
             override fun onFailure(call: Call<Rss>, t: Throwable) {
                 Log.i(TAG, t.message!!)
@@ -93,7 +104,7 @@ object HttpRequest {
     }
 
     fun getLifeNews(callback: HttpCallback) {
-        call = service.getLifeNews()
+        call = xmlService.getLifeNews()
         call.enqueue(object : Callback<Rss> {
             override fun onFailure(call: Call<Rss>, t: Throwable) {
                 Log.i(TAG, t.message!!)
@@ -106,7 +117,7 @@ object HttpRequest {
     }
 
     fun getPoliticsNews(callback: HttpCallback) {
-        call = service.getPoliticsNews()
+        call = xmlService.getPoliticsNews()
         call.enqueue(object : Callback<Rss> {
             override fun onFailure(call: Call<Rss>, t: Throwable) {
                 Log.i(TAG, t.message!!)
@@ -119,7 +130,7 @@ object HttpRequest {
     }
 
     fun getWorldNews(callback: HttpCallback) {
-        call = service.getWorldNews()
+        call = xmlService.getWorldNews()
         call.enqueue(object : Callback<Rss> {
             override fun onFailure(call: Call<Rss>, t: Throwable) {
                 Log.i(TAG, t.message!!)
@@ -132,7 +143,7 @@ object HttpRequest {
     }
 
     fun getCultureNews(callback: HttpCallback) {
-        call = service.getCultureNews()
+        call = xmlService.getCultureNews()
         call.enqueue(object : Callback<Rss> {
             override fun onFailure(call: Call<Rss>, t: Throwable) {
                 Log.i(TAG, t.message!!)
@@ -145,7 +156,7 @@ object HttpRequest {
     }
 
     fun getItNews(callback: HttpCallback) {
-        call = service.getITNews()
+        call = xmlService.getITNews()
         call.enqueue(object : Callback<Rss> {
             override fun onFailure(call: Call<Rss>, t: Throwable) {
                 Log.i(TAG, t.message!!)
@@ -158,7 +169,7 @@ object HttpRequest {
     }
 
     fun getDailyNews(callback: HttpCallback) {
-        call = service.getDailyNews()
+        call = xmlService.getDailyNews()
         call.enqueue(object : Callback<Rss> {
             override fun onFailure(call: Call<Rss>, t: Throwable) {
                 Log.i(TAG, t.message!!)
@@ -171,7 +182,7 @@ object HttpRequest {
     }
 
     fun getSportNews(callback: HttpCallback) {
-        call = service.getSportsNews()
+        call = xmlService.getSportsNews()
         call.enqueue(object : Callback<Rss> {
             override fun onFailure(call: Call<Rss>, t: Throwable) {
                 Log.i(TAG, t.message!!)
@@ -184,7 +195,7 @@ object HttpRequest {
     }
 
     fun getStarNews(callback: HttpCallback) {
-        call = service.getStarNews()
+        call = xmlService.getStarNews()
         call.enqueue(object : Callback<Rss> {
             override fun onFailure(call: Call<Rss>, t: Throwable) {
                 Log.i(TAG, t.message!!)
@@ -196,16 +207,17 @@ object HttpRequest {
         })
     }
 
-//    fun getOGTag(items: ArrayList<Item>, callback: HttpCallback) {
-//        val call = service.getOGTag(items[0].link)
-//        call.enqueue(object : Callback<OGTag> {
-//            override fun onFailure(call: Call<OGTag>, t: Throwable) {
-//                Log.i(TAG, t.message!!)
-//            }
-//
-//            override fun onResponse(call: Call<OGTag>, response: Response<OGTag>) {
-//                callback.onSuccess(null)
-//            }
-//        })
-//    }
+    fun getOGTag(items: Item, callback: HttpCallback) {
+        val call = htmlService.getOGTag(items.link)
+        call.enqueue(object : Callback<OGTag> {
+            override fun onFailure(call: Call<OGTag>, t: Throwable) {
+                Log.i(TAG, t.message!!)
+            }
+
+            override fun onResponse(call: Call<OGTag>, response: Response<OGTag>) {
+                items.ogTag = response.body()!!
+                callback.onSuccess(response.body())
+            }
+        })
+    }
 }
