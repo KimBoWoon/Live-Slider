@@ -22,6 +22,8 @@ import com.bowoon.android.live_slider.log.Log
 import com.bowoon.android.live_slider.model.Item
 import com.bowoon.android.live_slider.model.Rss
 import com.google.android.material.tabs.TabLayout
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -29,12 +31,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapterOfMajorNews: AdapterOfMajorNews
     private lateinit var layoutManager: LinearLayoutManager
     private val TAG = "MainActivity"
+    private var currentPage = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initView()
         request()
+        settingTimer()
     }
 
     private fun initView() {
@@ -119,6 +123,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun settingTimer() {
+        val slideTimer = Timer()
+        slideTimer.schedule(object : TimerTask() {
+            override fun run() {
+                runOnUiThread(object : Runnable {
+                    override fun run() {
+                        if (adapterOfMajorNews.itemCount == currentPage) {
+                            currentPage = 0
+                        }
+                        binding.mainMajorNews.currentItem = currentPage++
+                    }
+                })
+            }
+        }, 3000, 3000)
     }
 
     private fun request() {
