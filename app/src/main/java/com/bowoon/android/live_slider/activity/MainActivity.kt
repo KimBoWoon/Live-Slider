@@ -7,6 +7,8 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -14,13 +16,13 @@ import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.adapter.AdapterOfMajorNews
 import com.bowoon.android.live_slider.adapter.AdapterOfNewsKind
 import com.bowoon.android.live_slider.animation.ViewPagerAnimation
-import com.bowoon.android.live_slider.data.Data
+import com.bowoon.android.live_slider.data.DataRepository
 import com.bowoon.android.live_slider.databinding.ActivityMainBinding
-import com.bowoon.android.live_slider.http.HttpCallback
-import com.bowoon.android.live_slider.http.HttpRequest
 import com.bowoon.android.live_slider.log.Log
 import com.bowoon.android.live_slider.model.Item
 import com.bowoon.android.live_slider.model.Rss
+import com.bowoon.android.live_slider.viewmodel.MajorNewsViewModel
+import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import java.util.*
 import kotlin.collections.ArrayList
@@ -30,14 +32,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapterOfNewsKind: AdapterOfNewsKind
     private lateinit var adapterOfMajorNews: AdapterOfMajorNews
     private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var majorNewsViewModel: MajorNewsViewModel
     private val TAG = "MainActivity"
     private var currentPage = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        initViewModel()
         initView()
-        request()
+        DataRepository.request()
         settingTimer()
     }
 
@@ -93,13 +97,8 @@ class MainActivity : AppCompatActivity() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 Log.i(TAG, query!!)
-                val result = ArrayList<Item>()
 
-                for (item in Data.allNews) {
-                    if (item.title.contains(query)) {
-                        result.add(item)
-                    }
-                }
+                val result = searchData(query)
 
                 val intent = Intent(this@MainActivity, SearchResultActivity::class.java)
                 intent.putExtra("result", result)
@@ -125,6 +124,16 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun searchData(query: String): ArrayList<Item> {
+        val result = ArrayList<Item>()
+//        for (item in DataRepository.allNews) {
+//            if (item.title.contains(query)) {
+//                result.add(item)
+//            }
+//        }
+        return result
+    }
+
     private fun settingTimer() {
         val slideTimer = Timer()
         slideTimer.schedule(object : TimerTask() {
@@ -141,258 +150,13 @@ class MainActivity : AppCompatActivity() {
         }, 3000, 3000)
     }
 
-    private fun request() {
-        HttpRequest.getAllNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                if (o is Rss) {
-                    for (item in o.channel.item) {
-                        Data.allNews.add(item)
-                        HttpRequest.getOGTag(Data.allNews[Data.allNews.size - 1], object : HttpCallback {
-                            override fun onSuccess(o: Any?) {
-//                                Log.i(TAG, o.toString())
-                            }
-
-                            override fun onFail(o: Any) {
-
-                            }
-                        })
-                    }
+    private fun initViewModel() {
+        majorNewsViewModel = ViewModelProviders.of(this).get(MajorNewsViewModel::class.java)
+        majorNewsViewModel.getRSS().observe(this, object : Observer<Rss> {
+            override fun onChanged(t: Rss?) {
+                t?.let {
+                    adapterOfMajorNews.setItems(it.channel.item)
                 }
-            }
-
-            override fun onFail(o: Any) {
-
-            }
-        })
-
-        HttpRequest.getMainNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                if (o is Rss) {
-                    for (item in o.channel.item) {
-                        Data.mainNews.add(item)
-                        HttpRequest.getOGTag(Data.mainNews[Data.mainNews.size - 1], object : HttpCallback {
-                            override fun onSuccess(o: Any?) {
-//                                Log.i(TAG, o.toString())
-                            }
-
-                            override fun onFail(o: Any) {
-
-                            }
-                        })
-                    }
-                    adapterOfMajorNews.setItems(Data.mainNews)
-                }
-            }
-
-            override fun onFail(o: Any) {
-
-            }
-        })
-
-        HttpRequest.getMoneyNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                if (o is Rss) {
-                    for (item in o.channel.item) {
-                        Data.moneyNews.add(item)
-                        HttpRequest.getOGTag(Data.moneyNews[Data.moneyNews.size - 1], object : HttpCallback {
-                            override fun onSuccess(o: Any?) {
-//                                Log.i(TAG, o.toString())
-                            }
-
-                            override fun onFail(o: Any) {
-
-                            }
-                        })
-                    }
-                }
-            }
-
-            override fun onFail(o: Any) {
-
-            }
-        })
-
-        HttpRequest.getLifeNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                if (o is Rss) {
-                    for (item in o.channel.item) {
-                        Data.lifeNews.add(item)
-                        HttpRequest.getOGTag(Data.lifeNews[Data.lifeNews.size - 1], object : HttpCallback {
-                            override fun onSuccess(o: Any?) {
-//                                Log.i(TAG, o.toString())
-                            }
-
-                            override fun onFail(o: Any) {
-
-                            }
-                        })
-                    }
-                }
-            }
-
-            override fun onFail(o: Any) {
-
-            }
-        })
-
-        HttpRequest.getPoliticsNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                if (o is Rss) {
-                    for (item in o.channel.item) {
-                        Data.politicsNews.add(item)
-                        HttpRequest.getOGTag(Data.politicsNews[Data.politicsNews.size - 1], object : HttpCallback {
-                            override fun onSuccess(o: Any?) {
-//                                Log.i(TAG, o.toString())
-                            }
-
-                            override fun onFail(o: Any) {
-
-                            }
-                        })
-                    }
-                }
-            }
-
-            override fun onFail(o: Any) {
-
-            }
-        })
-
-        HttpRequest.getWorldNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                if (o is Rss) {
-                    for (item in o.channel.item) {
-                        Data.worldNews.add(item)
-                        HttpRequest.getOGTag(Data.worldNews[Data.worldNews.size - 1], object : HttpCallback {
-                            override fun onSuccess(o: Any?) {
-//                                Log.i(TAG, o.toString())
-                            }
-
-                            override fun onFail(o: Any) {
-
-                            }
-                        })
-                    }
-                }
-            }
-
-            override fun onFail(o: Any) {
-
-            }
-        })
-
-        HttpRequest.getCultureNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                if (o is Rss) {
-                    for (item in o.channel.item) {
-                        Data.cultureNews.add(item)
-                        HttpRequest.getOGTag(Data.cultureNews[Data.cultureNews.size - 1], object : HttpCallback {
-                            override fun onSuccess(o: Any?) {
-//                                Log.i(TAG, o.toString())
-                            }
-
-                            override fun onFail(o: Any) {
-
-                            }
-                        })
-                    }
-                }
-            }
-
-            override fun onFail(o: Any) {
-
-            }
-        })
-
-        HttpRequest.getItNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                if (o is Rss) {
-                    for (item in o.channel.item) {
-                        Data.itNews.add(item)
-                        HttpRequest.getOGTag(Data.itNews[Data.itNews.size - 1], object : HttpCallback {
-                            override fun onSuccess(o: Any?) {
-//                                Log.i(TAG, o.toString())
-                            }
-
-                            override fun onFail(o: Any) {
-
-                            }
-                        })
-                    }
-                }
-            }
-
-            override fun onFail(o: Any) {
-
-            }
-        })
-
-        HttpRequest.getDailyNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                if (o is Rss) {
-                    for (item in o.channel.item) {
-                        Data.dailyNews.add(item)
-                        HttpRequest.getOGTag(Data.dailyNews[Data.dailyNews.size - 1], object : HttpCallback {
-                            override fun onSuccess(o: Any?) {
-//                                Log.i(TAG, o.toString())
-                            }
-
-                            override fun onFail(o: Any) {
-
-                            }
-                        })
-                    }
-                }
-            }
-
-            override fun onFail(o: Any) {
-
-            }
-        })
-
-        HttpRequest.getSportNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                if (o is Rss) {
-                    for (item in o.channel.item) {
-                        Data.sportNews.add(item)
-                        HttpRequest.getOGTag(Data.sportNews[Data.sportNews.size - 1], object : HttpCallback {
-                            override fun onSuccess(o: Any?) {
-//                                Log.i(TAG, o.toString())
-                            }
-
-                            override fun onFail(o: Any) {
-
-                            }
-                        })
-                    }
-                }
-            }
-
-            override fun onFail(o: Any) {
-
-            }
-        })
-
-        HttpRequest.getStarNews(object : HttpCallback {
-            override fun onSuccess(o: Any?) {
-                if (o is Rss) {
-                    for (item in o.channel.item) {
-                        Data.starNews.add(item)
-                        HttpRequest.getOGTag(Data.starNews[Data.starNews.size - 1], object : HttpCallback {
-                            override fun onSuccess(o: Any?) {
-//                                Log.i(TAG, o.toString())
-                            }
-
-                            override fun onFail(o: Any) {
-
-                            }
-                        })
-                    }
-                }
-            }
-
-            override fun onFail(o: Any) {
-
             }
         })
     }
