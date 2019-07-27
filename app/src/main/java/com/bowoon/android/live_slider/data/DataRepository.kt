@@ -3,6 +3,7 @@ package com.bowoon.android.live_slider.data
 import androidx.lifecycle.MediatorLiveData
 import com.bowoon.android.live_slider.http.HttpCallback
 import com.bowoon.android.live_slider.http.HttpRequest
+import com.bowoon.android.live_slider.model.OGTag
 import com.bowoon.android.live_slider.model.Rss
 
 object DataRepository {
@@ -35,6 +36,19 @@ object DataRepository {
             override fun onSuccess(o: Any?) {
                 if (o is Rss) {
                     allNews.value = o
+                    for (item in allNews.value!!.channel.item) {
+                        HttpRequest.getOGTag(item, object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+                                if (o is OGTag) {
+                                    item.ogTag = o
+                                }
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
+                    }
                 }
             }
 
@@ -47,6 +61,19 @@ object DataRepository {
             override fun onSuccess(o: Any?) {
                 if (o is Rss) {
                     mainNews.value = o
+                    for (item in mainNews.value!!.channel.item) {
+                        HttpRequest.getOGTag(item, object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+                                if (o is OGTag) {
+                                    item.ogTag = o
+                                }
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
+                    }
                 }
             }
 
@@ -59,6 +86,19 @@ object DataRepository {
             override fun onSuccess(o: Any?) {
                 if (o is Rss) {
                     moneyNews.value = o
+                    for (item in moneyNews.value!!.channel.item) {
+                        HttpRequest.getOGTag(item, object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+                                if (o is OGTag) {
+                                    item.ogTag = o
+                                }
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
+                    }
                 }
             }
 
@@ -71,6 +111,19 @@ object DataRepository {
             override fun onSuccess(o: Any?) {
                 if (o is Rss) {
                     lifeNews.value = o
+                    for (item in lifeNews.value!!.channel.item) {
+                        HttpRequest.getOGTag(item, object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+                                if (o is OGTag) {
+                                    item.ogTag = o
+                                }
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
+                    }
                 }
             }
 
@@ -83,6 +136,19 @@ object DataRepository {
             override fun onSuccess(o: Any?) {
                 if (o is Rss) {
                     politicsNews.value = o
+                    for (item in politicsNews.value!!.channel.item) {
+                        HttpRequest.getOGTag(item, object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+                                if (o is OGTag) {
+                                    item.ogTag = o
+                                }
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
+                    }
                 }
             }
 
@@ -95,6 +161,19 @@ object DataRepository {
             override fun onSuccess(o: Any?) {
                 if (o is Rss) {
                     worldNews.value = o
+                    for (item in worldNews.value!!.channel.item) {
+                        HttpRequest.getOGTag(item, object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+                                if (o is OGTag) {
+                                    item.ogTag = o
+                                }
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
+                    }
                 }
             }
 
@@ -107,6 +186,19 @@ object DataRepository {
             override fun onSuccess(o: Any?) {
                 if (o is Rss) {
                     cultureNews.value = o
+                    for (item in cultureNews.value!!.channel.item) {
+                        HttpRequest.getOGTag(item, object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+                                if (o is OGTag) {
+                                    item.ogTag = o
+                                }
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
+                    }
                 }
             }
 
@@ -119,6 +211,19 @@ object DataRepository {
             override fun onSuccess(o: Any?) {
                 if (o is Rss) {
                     itNews.value = o
+                    for (item in itNews.value!!.channel.item) {
+                        HttpRequest.getOGTag(item, object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+                                if (o is OGTag) {
+                                    item.ogTag = o
+                                }
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
+                    }
                 }
             }
 
@@ -131,6 +236,19 @@ object DataRepository {
             override fun onSuccess(o: Any?) {
                 if (o is Rss) {
                     dailyNews.value = o
+                    for (item in dailyNews.value!!.channel.item) {
+                        HttpRequest.getOGTag(item, object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+                                if (o is OGTag) {
+                                    item.ogTag = o
+                                }
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
+                    }
                 }
             }
 
@@ -143,6 +261,19 @@ object DataRepository {
             override fun onSuccess(o: Any?) {
                 if (o is Rss) {
                     sportNews.value = o
+                    for (item in sportNews.value!!.channel.item) {
+                        HttpRequest.getOGTag(item, object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+                                if (o is OGTag) {
+                                    item.ogTag = o
+                                }
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
+                    }
                 }
             }
 
@@ -155,6 +286,19 @@ object DataRepository {
             override fun onSuccess(o: Any?) {
                 if (o is Rss) {
                     starNews.value = o
+                    for (item in starNews.value!!.channel.item) {
+                        HttpRequest.getOGTag(item, object : HttpCallback {
+                            override fun onSuccess(o: Any?) {
+                                if (o is OGTag) {
+                                    item.ogTag = o
+                                }
+                            }
+
+                            override fun onFail(o: Any) {
+
+                            }
+                        })
+                    }
                 }
             }
 
