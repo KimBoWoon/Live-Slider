@@ -9,7 +9,7 @@ import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.adapter.AdapterOfNews
 import com.bowoon.android.live_slider.databinding.NewsItemViewBinding
 import com.bowoon.android.live_slider.model.Item
-import com.bumptech.glide.Glide
+import com.bowoon.android.live_slider.module.GlideApp
 
 class SearchResultActivity : Activity() {
     private lateinit var binding: NewsItemViewBinding
@@ -22,7 +22,7 @@ class SearchResultActivity : Activity() {
         val result = intent.getSerializableExtra("result") as ArrayList<Item>
 
         binding = DataBindingUtil.setContentView(this, R.layout.news_item_view)
-        adapterOfNews = AdapterOfNews(Glide.with(this@SearchResultActivity))
+        adapterOfNews = AdapterOfNews(GlideApp.with(this@SearchResultActivity))
         layoutManager = LinearLayoutManager(this@SearchResultActivity, RecyclerView.VERTICAL, false)
         adapterOfNews.setItems(result)
         binding.fragmentNewsView.layoutManager = layoutManager

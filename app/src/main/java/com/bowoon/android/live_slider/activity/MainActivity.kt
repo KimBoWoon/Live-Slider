@@ -22,7 +22,6 @@ import com.bowoon.android.live_slider.log.Log
 import com.bowoon.android.live_slider.model.Item
 import com.bowoon.android.live_slider.model.Rss
 import com.bowoon.android.live_slider.viewmodel.MajorNewsViewModel
-import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import java.util.*
 import kotlin.collections.ArrayList

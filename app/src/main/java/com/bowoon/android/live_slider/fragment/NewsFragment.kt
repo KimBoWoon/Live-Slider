@@ -14,9 +14,9 @@ import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.adapter.AdapterOfNews
 import com.bowoon.android.live_slider.databinding.NewsItemViewBinding
 import com.bowoon.android.live_slider.model.Rss
+import com.bowoon.android.live_slider.module.GlideApp
 import com.bowoon.android.live_slider.type.NewsType
 import com.bowoon.android.live_slider.viewmodel.NewsViewModel
-import com.bumptech.glide.Glide
 
 class NewsFragment : Fragment() {
     private lateinit var binding: NewsItemViewBinding
@@ -31,7 +31,7 @@ class NewsFragment : Fragment() {
             container,
             false
         ).apply {
-            adapterOfNews = AdapterOfNews(Glide.with(this@NewsFragment))
+            adapterOfNews = AdapterOfNews(GlideApp.with(this@NewsFragment))
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
 

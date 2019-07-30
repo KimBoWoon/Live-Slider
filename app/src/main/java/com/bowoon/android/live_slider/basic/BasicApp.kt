@@ -1,6 +1,7 @@
 package com.bowoon.android.live_slider.basic
 
 import android.app.Application
+import com.bowoon.android.live_slider.module.GlideApp
 import com.bumptech.glide.Glide
 
 class BasicApp : Application() {
@@ -11,12 +12,12 @@ class BasicApp : Application() {
 
     override fun onLowMemory() {
         super.onLowMemory()
-        Glide.get(this).clearMemory()
+        GlideApp.get(this).clearMemory()
     }
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
-        Glide.get(this).trimMemory(level)
+        GlideApp.get(this).trimMemory(level)
     }
 
     companion object {

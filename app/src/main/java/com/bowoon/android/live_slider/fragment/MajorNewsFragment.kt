@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.databinding.MajorNewsItemBinding
 import com.bowoon.android.live_slider.model.Item
+import com.bowoon.android.live_slider.module.GlideApp
 import com.bumptech.glide.Glide
 
 
@@ -34,7 +35,7 @@ class MajorNewsFragment : Fragment() {
 
             binding.majorNewsTitle.text = news.title
 
-            Glide
+            GlideApp
                 .with(context!!)
                 .load(news.ogTag.image)
                 .centerCrop()
