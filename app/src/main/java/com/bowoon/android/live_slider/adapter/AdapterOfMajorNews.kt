@@ -5,8 +5,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.bowoon.android.live_slider.data.Data
-import com.bowoon.android.live_slider.type.NewsType
 import com.bowoon.android.live_slider.fragment.MajorNewsFragment
 import com.bowoon.android.live_slider.model.Item
 

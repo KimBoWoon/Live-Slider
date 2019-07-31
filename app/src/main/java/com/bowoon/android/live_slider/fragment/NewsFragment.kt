@@ -6,19 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bowoon.android.live_slider.data.Data
 import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.adapter.AdapterOfNews
 import com.bowoon.android.live_slider.databinding.NewsItemViewBinding
+import com.bowoon.android.live_slider.model.Rss
+import com.bowoon.android.live_slider.module.GlideApp
 import com.bowoon.android.live_slider.type.NewsType
-import com.bumptech.glide.Glide
+import com.bowoon.android.live_slider.viewmodel.DataViewModel
 
 class NewsFragment : Fragment() {
     private lateinit var binding: NewsItemViewBinding
     private lateinit var adapterOfNews: AdapterOfNews
     private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var newsViewModel: DataViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate<NewsItemViewBinding>(
@@ -27,7 +31,7 @@ class NewsFragment : Fragment() {
             container,
             false
         ).apply {
-            adapterOfNews = AdapterOfNews(Glide.with(this@NewsFragment))
+            adapterOfNews = AdapterOfNews(GlideApp.with(this@NewsFragment))
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
 
@@ -38,21 +42,20 @@ class NewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            when (it.getSerializable("type") as NewsType) {
-                NewsType.ALL -> adapterOfNews.setItems(Data.allNews)
-                NewsType.MONEY -> adapterOfNews.setItems(Data.moneyNews)
-                NewsType.LIFE -> adapterOfNews.setItems(Data.lifeNews)
-                NewsType.POLITICS -> adapterOfNews.setItems(Data.politicsNews)
-                NewsType.WORLD -> adapterOfNews.setItems(Data.worldNews)
-                NewsType.CULTURE -> adapterOfNews.setItems(Data.cultureNews)
-                NewsType.IT -> adapterOfNews.setItems(Data.itNews)
-                NewsType.DAILY -> adapterOfNews.setItems(Data.dailyNews)
-                NewsType.SPORT -> adapterOfNews.setItems(Data.sportNews)
-                NewsType.STAR -> adapterOfNews.setItems(Data.starNews)
-                else -> adapterOfNews.setItems(Data.allNews)
-            }
+            initViewModel(it.getSerializable("type") as NewsType)
             binding.fragmentNewsView.layoutManager = layoutManager
             binding.fragmentNewsView.adapter = adapterOfNews
         }
+    }
+
+    private fun initViewModel(type: NewsType) {
+        newsViewModel = ViewModelProviders.of(this).get(DataViewModel::class.java)
+        newsViewModel.getRSS(type).observe(this, object : Observer<Rss> {
+            override fun onChanged(t: Rss?) {
+                t?.let {
+                    adapterOfNews.setItems(it.channel.item)
+                }
+            }
+        })
     }
 }
