@@ -16,13 +16,13 @@ import com.bowoon.android.live_slider.databinding.NewsItemViewBinding
 import com.bowoon.android.live_slider.model.Rss
 import com.bowoon.android.live_slider.module.GlideApp
 import com.bowoon.android.live_slider.type.NewsType
-import com.bowoon.android.live_slider.viewmodel.NewsViewModel
+import com.bowoon.android.live_slider.viewmodel.DataViewModel
 
 class NewsFragment : Fragment() {
     private lateinit var binding: NewsItemViewBinding
     private lateinit var adapterOfNews: AdapterOfNews
     private lateinit var layoutManager: LinearLayoutManager
-    private lateinit var newsViewModel: NewsViewModel
+    private lateinit var newsViewModel: DataViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate<NewsItemViewBinding>(
@@ -49,7 +49,7 @@ class NewsFragment : Fragment() {
     }
 
     private fun initViewModel(type: NewsType) {
-        newsViewModel = ViewModelProviders.of(this).get(NewsViewModel::class.java)
+        newsViewModel = ViewModelProviders.of(this).get(DataViewModel::class.java)
         newsViewModel.getRSS(type).observe(this, object : Observer<Rss> {
             override fun onChanged(t: Rss?) {
                 t?.let {

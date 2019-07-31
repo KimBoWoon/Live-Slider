@@ -9,7 +9,7 @@ import com.tickaroo.tikxml.typeadapter.TypeAdapter
 
 class ImageTypeAdapter : TypeAdapter<Image> {
     override fun fromXml(reader: XmlReader?, config: TikXmlConfig?): Image {
-        val image: Image = Image()
+        val image = Image()
         while (reader!!.hasElement()) {
             reader.beginElement()
             when (reader.nextElementName()) {

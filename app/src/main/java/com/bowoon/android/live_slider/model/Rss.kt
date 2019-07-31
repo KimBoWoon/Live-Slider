@@ -12,4 +12,5 @@ data class Rss(
     var channel: Channel
 ) {
     constructor() : this("", Channel())
+    constructor(channel: Channel) : this("", channel)
 }

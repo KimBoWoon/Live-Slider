@@ -207,15 +207,14 @@ object HttpRequest {
         })
     }
 
-    fun getOGTag(items: Item, callback: HttpCallback) {
-        val call = htmlService.getOGTag(items.link)
+    fun getOGTag(link: String, callback: HttpCallback) {
+        val call = htmlService.getOGTag(link)
         call.enqueue(object : Callback<OGTag> {
             override fun onFailure(call: Call<OGTag>, t: Throwable) {
                 Log.i(TAG, t.message!!)
             }
 
             override fun onResponse(call: Call<OGTag>, response: Response<OGTag>) {
-                items.ogTag = response.body()!!
                 callback.onSuccess(response.body())
             }
         })

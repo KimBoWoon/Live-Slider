@@ -25,7 +25,8 @@
                        android:resource="@xml/searchable"/>
         </activity>
 
-        <activity android:name=".activity.SearchResultActivity"/>
+        <activity android:name=".activity.SearchResultActivity"
+                  android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

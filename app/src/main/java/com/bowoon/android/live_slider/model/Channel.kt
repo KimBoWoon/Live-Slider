@@ -26,4 +26,5 @@ data class Channel(
     var item: ArrayList<Item>
 ) {
     constructor() : this("", "", "", "", "", "", "", Image(), ArrayList<Item>())
+    constructor(item: ArrayList<Item>) : this("", "", "", "", "", "", "", Image(), item)
 }

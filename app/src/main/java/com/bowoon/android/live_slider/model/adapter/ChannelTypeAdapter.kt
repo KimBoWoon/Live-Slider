@@ -11,7 +11,7 @@ import com.tickaroo.tikxml.typeadapter.TypeAdapter
 
 class ChannelTypeAdapter : TypeAdapter<Channel> {
     override fun fromXml(reader: XmlReader?, config: TikXmlConfig?): Channel {
-        val channel: Channel = Channel()
+        val channel = Channel()
         var type: TypeAdapter<*>
 
         while (reader!!.hasElement()) {

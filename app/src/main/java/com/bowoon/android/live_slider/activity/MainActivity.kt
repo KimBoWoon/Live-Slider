@@ -21,7 +21,8 @@ import com.bowoon.android.live_slider.databinding.ActivityMainBinding
 import com.bowoon.android.live_slider.log.Log
 import com.bowoon.android.live_slider.model.Item
 import com.bowoon.android.live_slider.model.Rss
-import com.bowoon.android.live_slider.viewmodel.MajorNewsViewModel
+import com.bowoon.android.live_slider.type.NewsType
+import com.bowoon.android.live_slider.viewmodel.DataViewModel
 import com.google.android.material.tabs.TabLayout
 import java.util.*
 import kotlin.collections.ArrayList
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapterOfNewsKind: AdapterOfNewsKind
     private lateinit var adapterOfMajorNews: AdapterOfMajorNews
     private lateinit var layoutManager: LinearLayoutManager
-    private lateinit var majorNewsViewModel: MajorNewsViewModel
+    private lateinit var majorNewsViewModel: DataViewModel
     private val TAG = "MainActivity"
     private var currentPage = 0
 
@@ -97,11 +98,7 @@ class MainActivity : AppCompatActivity() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 Log.i(TAG, query!!)
 
-                val result = searchData(query)
-
-                val intent = Intent(this@MainActivity, SearchResultActivity::class.java)
-                intent.putExtra("result", result)
-                startActivity(intent)
+                searchData(query)
 
                 return false
             }
@@ -123,14 +120,17 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun searchData(query: String): ArrayList<Item> {
-        val result = ArrayList<Item>()
-//        for (item in DataRepository.allNews) {
-//            if (item.title.contains(query)) {
-//                result.add(item)
-//            }
-//        }
-        return result
+    private fun searchData(query: String) {
+        majorNewsViewModel.getSearchData(query).observe(this, object : Observer<Rss> {
+            override fun onChanged(t: Rss?) {
+                t?.let {
+                    val intent = Intent(this@MainActivity, SearchResultActivity::class.java)
+                    intent.putExtra("title", query)
+                    intent.putExtra("result", it.channel.item)
+                    startActivity(intent)
+                }
+            }
+        })
     }
 
     private fun settingTimer() {
@@ -150,8 +150,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        majorNewsViewModel = ViewModelProviders.of(this).get(MajorNewsViewModel::class.java)
-        majorNewsViewModel.getRSS().observe(this, object : Observer<Rss> {
+        majorNewsViewModel = ViewModelProviders.of(this).get(DataViewModel::class.java)
+        majorNewsViewModel.getRSS(NewsType.MAIN).observe(this, object : Observer<Rss> {
             override fun onChanged(t: Rss?) {
                 t?.let {
                     adapterOfMajorNews.setItems(it.channel.item)
