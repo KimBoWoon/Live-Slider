@@ -2,9 +2,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:card="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="callback" type="com.bowoon.android.live_slider.listener.ItemClickListener"/>
+        <variable name="item" type="com.bowoon.android.live_slider.model.Item"/>
+    </data>
+
     <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> callback.onClick(item)}"
             card:cardCornerRadius="3dp"
             android:layout_margin="5dp">
         <androidx.constraintlayout.widget.ConstraintLayout

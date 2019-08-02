@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
@@ -83,6 +84,33 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 binding.mainKindOfNews.currentItem = tab!!.position
+            }
+        })
+        binding.mainMajorNews.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+//                when (state) {
+//                    ViewPager2.SCROLL_STATE_IDLE -> {
+//
+//                    }
+//                    ViewPager2.SCROLL_STATE_DRAGGING -> {
+//
+//                    }
+//                    ViewPager2.SCROLL_STATE_SETTLING -> {
+//                        if (adapterOfMajorNews.itemCount != currentPage) {
+//                            currentPage++
+//                        }
+//                    }
+//                }
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            }
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                currentPage = position
             }
         })
     }

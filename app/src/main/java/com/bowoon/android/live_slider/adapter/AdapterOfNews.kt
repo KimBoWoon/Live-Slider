@@ -6,11 +6,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.databinding.NewsItemBinding
+import com.bowoon.android.live_slider.listener.ItemClickListener
 import com.bowoon.android.live_slider.model.Item
 import com.bumptech.glide.RequestManager
 
 
-class AdapterOfNews(requestManager: RequestManager) :
+class AdapterOfNews(private val itemClicked: ItemClickListener, requestManager: RequestManager) :
     RecyclerView.Adapter<AdapterOfNews.Companion.NewsItemHolder>() {
     private var items: ArrayList<Item>? = null
     private val glide = requestManager
@@ -37,6 +38,8 @@ class AdapterOfNews(requestManager: RequestManager) :
     override fun onBindViewHolder(holder: NewsItemHolder, position: Int) {
         holder.binding.newsTitle.text = items!![position].title
         holder.binding.newsDescription.text = items!![position].description
+        holder.binding.callback = itemClicked
+        holder.binding.item = items!![position]
         glide
             .load(items!![position].ogTag.image)
             .centerCrop()

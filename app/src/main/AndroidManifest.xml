@@ -27,6 +27,8 @@
 
         <activity android:name=".activity.SearchResultActivity"
                   android:theme="@style/AppTheme"/>
+
+        <activity android:name=".activity.WebViewActivity"/>
     </application>
 
 </manifest>

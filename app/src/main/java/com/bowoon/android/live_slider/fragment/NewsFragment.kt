@@ -1,5 +1,6 @@
 package com.bowoon.android.live_slider.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bowoon.android.live_slider.R
+import com.bowoon.android.live_slider.activity.WebViewActivity
 import com.bowoon.android.live_slider.adapter.AdapterOfNews
 import com.bowoon.android.live_slider.databinding.NewsItemViewBinding
+import com.bowoon.android.live_slider.listener.ItemClickListener
+import com.bowoon.android.live_slider.model.Item
 import com.bowoon.android.live_slider.model.Rss
 import com.bowoon.android.live_slider.module.GlideApp
 import com.bowoon.android.live_slider.type.NewsType
@@ -31,7 +35,7 @@ class NewsFragment : Fragment() {
             container,
             false
         ).apply {
-            adapterOfNews = AdapterOfNews(GlideApp.with(this@NewsFragment))
+            adapterOfNews = AdapterOfNews(itemClicked, GlideApp.with(this@NewsFragment))
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
 
@@ -57,5 +61,13 @@ class NewsFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private val itemClicked = object : ItemClickListener {
+        override fun onClick(item: Item) {
+            val intent = Intent(context, WebViewActivity::class.java)
+            intent.putExtra("item", item)
+            startActivity(intent)
+        }
     }
 }
