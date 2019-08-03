@@ -34,10 +34,7 @@ class NewsFragment : Fragment() {
             R.layout.news_item_view,
             container,
             false
-        ).apply {
-            adapterOfNews = AdapterOfNews(itemClicked, GlideApp.with(this@NewsFragment))
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        }
+        )
 
         return binding.root
     }
@@ -46,7 +43,10 @@ class NewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            initViewModel(it.getSerializable("type") as NewsType)
+            val type = it.getSerializable("type") as NewsType
+            initViewModel(type)
+            adapterOfNews = AdapterOfNews(itemClicked, type, GlideApp.with(this@NewsFragment))
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             binding.fragmentNewsView.layoutManager = layoutManager
             binding.fragmentNewsView.adapter = adapterOfNews
         }
@@ -57,7 +57,7 @@ class NewsFragment : Fragment() {
         newsViewModel.getRSS(type).observe(this, object : Observer<Rss> {
             override fun onChanged(t: Rss?) {
                 t?.let {
-                    adapterOfNews.setItems(it.channel.item)
+                    adapterOfNews.setItems(ArrayList<Item>(it.channel.item.subList(0, 5)))
                 }
             }
         })

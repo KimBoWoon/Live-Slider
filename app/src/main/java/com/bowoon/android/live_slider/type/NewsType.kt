@@ -11,5 +11,6 @@ enum class NewsType {
     IT,
     DAILY,
     SPORT,
-    STAR
+    STAR,
+    SEARCH
 }

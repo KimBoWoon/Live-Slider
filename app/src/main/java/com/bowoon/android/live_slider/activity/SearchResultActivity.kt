@@ -12,6 +12,7 @@ import com.bowoon.android.live_slider.databinding.SearchViewBinding
 import com.bowoon.android.live_slider.listener.ItemClickListener
 import com.bowoon.android.live_slider.model.Item
 import com.bowoon.android.live_slider.module.GlideApp
+import com.bowoon.android.live_slider.type.NewsType
 
 class SearchResultActivity : AppCompatActivity() {
     private lateinit var binding: SearchViewBinding
@@ -26,7 +27,7 @@ class SearchResultActivity : AppCompatActivity() {
         supportActionBar!!.title = "${intent.getStringExtra("title")}의 검색결과"
 
         binding = DataBindingUtil.setContentView(this, R.layout.search_view)
-        adapterOfNews = AdapterOfNews(itemClicked, GlideApp.with(this@SearchResultActivity))
+        adapterOfNews = AdapterOfNews(itemClicked, NewsType.SEARCH, GlideApp.with(this@SearchResultActivity))
         layoutManager = LinearLayoutManager(this@SearchResultActivity, RecyclerView.VERTICAL, false)
         adapterOfNews.setItems(result)
         binding.searchItems.layoutManager = layoutManager

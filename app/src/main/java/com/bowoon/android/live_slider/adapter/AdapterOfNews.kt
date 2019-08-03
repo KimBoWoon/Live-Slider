@@ -1,17 +1,24 @@
 package com.bowoon.android.live_slider.adapter
 
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bowoon.android.live_slider.R
+import com.bowoon.android.live_slider.data.DataRepository
 import com.bowoon.android.live_slider.databinding.NewsItemBinding
 import com.bowoon.android.live_slider.listener.ItemClickListener
 import com.bowoon.android.live_slider.model.Item
+import com.bowoon.android.live_slider.type.NewsType
 import com.bumptech.glide.RequestManager
 
 
-class AdapterOfNews(private val itemClicked: ItemClickListener, requestManager: RequestManager) :
+class AdapterOfNews(
+    private val itemClicked: ItemClickListener,
+    private val type: NewsType,
+    requestManager: RequestManager
+) :
     RecyclerView.Adapter<AdapterOfNews.Companion.NewsItemHolder>() {
     private var items: ArrayList<Item>? = null
     private val glide = requestManager
@@ -46,18 +53,18 @@ class AdapterOfNews(private val itemClicked: ItemClickListener, requestManager: 
             .placeholder(R.mipmap.image_not_found)
             .into(holder.binding.newsImage)
 
-//        if (position == itemCount - 1) {
-//            if (position + 5 < Data.allNews.size) {
-//                EndlessScrollListener.onLoadMore(position + 1, NewsType.ALL, items!!)
-//            } else {
-//                EndlessScrollListener.onLoadMore(position + 1, Data.allNews.size, NewsType.ALL, items!!)
-//            }
-//            Handler().post(object : Runnable {
-//                override fun run() {
-//                    notifyItemRangeChanged(position + 1, 5)
-//                }
-//            })
-//        }
+        if (position == itemCount - 1) {
+            if (position + 5 < DataRepository.allNews.value!!.channel.item.size) {
+                EndlessScrollListener.onLoadMore(position + 1, type, items!!)
+            } else {
+                EndlessScrollListener.onLoadMore(position + 1, DataRepository.allNews.value!!.channel.item.size, type, items!!)
+            }
+            Handler().post(object : Runnable {
+                override fun run() {
+                    notifyItemRangeChanged(position + 1, 5)
+                }
+            })
+        }
     }
 
     fun setItems(items: ArrayList<Item>) {

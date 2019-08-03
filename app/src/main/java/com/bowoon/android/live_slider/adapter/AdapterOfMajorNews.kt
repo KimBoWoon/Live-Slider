@@ -13,14 +13,6 @@ class AdapterOfMajorNews(fragmentManager: FragmentManager, lifecycle: Lifecycle)
     private var items: ArrayList<Item>? = null
 
     override fun createFragment(position: Int): Fragment {
-//        if (position == items!!.size - 1) {
-//            if (position + 5 < Data.mainNews.size) {
-//                EndlessScrollListener.onLoadMore(position + 1, NewsType.MAIN, items!!)
-//            } else {
-//                EndlessScrollListener.onLoadMore(position + 1, Data.mainNews.size, NewsType.MAIN, items!!)
-//            }
-//        }
-
         return MajorNewsFragment().apply {
             arguments = bundleOf(
                 "news" to items!![position]

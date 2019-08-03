@@ -5,15 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.activity.WebViewActivity
 import com.bowoon.android.live_slider.databinding.MajorNewsItemBinding
 import com.bowoon.android.live_slider.listener.ItemClickListener
 import com.bowoon.android.live_slider.model.Item
 import com.bowoon.android.live_slider.module.GlideApp
-import com.bumptech.glide.Glide
 
 
 class MajorNewsFragment : Fragment() {

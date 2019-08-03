@@ -29,6 +29,9 @@ class DataViewModel : ViewModel() {
             NewsType.DAILY -> DataRepository.dailyNews
             NewsType.SPORT -> DataRepository.sportNews
             NewsType.STAR -> DataRepository.starNews
+            else -> {
+                MediatorLiveData()
+            }
         }
 
         return rss
