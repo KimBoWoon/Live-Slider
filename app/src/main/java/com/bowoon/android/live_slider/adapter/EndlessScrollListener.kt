@@ -2,9 +2,9 @@ package com.bowoon.android.live_slider.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bowoon.android.live_slider.data.DataRepository
-import com.bowoon.android.live_slider.type.NewsType
-import com.bowoon.android.live_slider.type.NewsType.*
-import com.bowoon.android.live_slider.model.Item
+import com.bowoon.android.live_slider.data.type.NewsType
+import com.bowoon.android.live_slider.data.type.NewsType.*
+import com.bowoon.android.live_slider.data.model.Item
 
 object EndlessScrollListener : RecyclerView.OnScrollListener() {
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

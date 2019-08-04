@@ -16,10 +16,10 @@ import com.bowoon.android.live_slider.activity.WebViewActivity
 import com.bowoon.android.live_slider.adapter.AdapterOfNews
 import com.bowoon.android.live_slider.databinding.NewsItemViewBinding
 import com.bowoon.android.live_slider.listener.ItemClickListener
-import com.bowoon.android.live_slider.model.Item
-import com.bowoon.android.live_slider.model.Rss
+import com.bowoon.android.live_slider.data.model.Item
+import com.bowoon.android.live_slider.data.model.Rss
 import com.bowoon.android.live_slider.module.GlideApp
-import com.bowoon.android.live_slider.type.NewsType
+import com.bowoon.android.live_slider.data.type.NewsType
 import com.bowoon.android.live_slider.viewmodel.DataViewModel
 
 class NewsFragment : Fragment() {

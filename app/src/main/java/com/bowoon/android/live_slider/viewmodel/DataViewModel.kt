@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import com.bowoon.android.live_slider.data.DataRepository
-import com.bowoon.android.live_slider.model.Channel
-import com.bowoon.android.live_slider.model.Item
-import com.bowoon.android.live_slider.model.Rss
-import com.bowoon.android.live_slider.type.NewsType
+import com.bowoon.android.live_slider.data.model.Channel
+import com.bowoon.android.live_slider.data.model.Item
+import com.bowoon.android.live_slider.data.model.Rss
+import com.bowoon.android.live_slider.data.type.NewsType
 
 class DataViewModel : ViewModel() {
     private var rss: MediatorLiveData<Rss> = MediatorLiveData()

@@ -9,8 +9,8 @@ import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.data.DataRepository
 import com.bowoon.android.live_slider.databinding.NewsItemBinding
 import com.bowoon.android.live_slider.listener.ItemClickListener
-import com.bowoon.android.live_slider.model.Item
-import com.bowoon.android.live_slider.type.NewsType
+import com.bowoon.android.live_slider.data.model.Item
+import com.bowoon.android.live_slider.data.type.NewsType
 import com.bumptech.glide.RequestManager
 
 

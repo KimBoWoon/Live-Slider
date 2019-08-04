@@ -3,9 +3,9 @@ package com.bowoon.android.live_slider.data
 import androidx.lifecycle.MediatorLiveData
 import com.bowoon.android.live_slider.http.HttpCallback
 import com.bowoon.android.live_slider.http.HttpRequest
-import com.bowoon.android.live_slider.model.Item
-import com.bowoon.android.live_slider.model.OGTag
-import com.bowoon.android.live_slider.model.Rss
+import com.bowoon.android.live_slider.data.model.Item
+import com.bowoon.android.live_slider.data.model.OGTag
+import com.bowoon.android.live_slider.data.model.Rss
 
 object DataRepository {
     private val observableAllNews: MediatorLiveData<Rss> = MediatorLiveData()

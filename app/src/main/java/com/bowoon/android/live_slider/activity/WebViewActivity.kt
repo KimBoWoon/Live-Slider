@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.databinding.NewsViewBinding
-import com.bowoon.android.live_slider.model.Item
+import com.bowoon.android.live_slider.data.model.Item
 
 class WebViewActivity : AppCompatActivity() {
     private lateinit var binding: NewsViewBinding

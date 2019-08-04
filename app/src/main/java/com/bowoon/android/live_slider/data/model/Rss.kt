@@ -1,4 +1,4 @@
-package com.bowoon.android.live_slider.model
+package com.bowoon.android.live_slider.data.model
 
 import com.tickaroo.tikxml.annotation.Attribute
 import com.tickaroo.tikxml.annotation.Element

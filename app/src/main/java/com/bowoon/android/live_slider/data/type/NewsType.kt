@@ -1,4 +1,4 @@
-package com.bowoon.android.live_slider.type
+package com.bowoon.android.live_slider.data.type
 
 enum class NewsType {
     ALL,

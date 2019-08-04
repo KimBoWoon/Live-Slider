@@ -10,9 +10,9 @@ import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.adapter.AdapterOfNews
 import com.bowoon.android.live_slider.databinding.SearchViewBinding
 import com.bowoon.android.live_slider.listener.ItemClickListener
-import com.bowoon.android.live_slider.model.Item
+import com.bowoon.android.live_slider.data.model.Item
 import com.bowoon.android.live_slider.module.GlideApp
-import com.bowoon.android.live_slider.type.NewsType
+import com.bowoon.android.live_slider.data.type.NewsType
 
 class SearchResultActivity : AppCompatActivity() {
     private lateinit var binding: SearchViewBinding

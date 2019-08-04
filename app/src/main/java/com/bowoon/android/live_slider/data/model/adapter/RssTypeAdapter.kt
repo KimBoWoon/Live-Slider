@@ -1,7 +1,7 @@
-package com.bowoon.android.live_slider.model.adapter
+package com.bowoon.android.live_slider.data.model.adapter
 
-import com.bowoon.android.live_slider.model.Channel
-import com.bowoon.android.live_slider.model.Rss
+import com.bowoon.android.live_slider.data.model.Channel
+import com.bowoon.android.live_slider.data.model.Rss
 import com.tickaroo.tikxml.TikXmlConfig
 import com.tickaroo.tikxml.XmlReader
 import com.tickaroo.tikxml.XmlWriter

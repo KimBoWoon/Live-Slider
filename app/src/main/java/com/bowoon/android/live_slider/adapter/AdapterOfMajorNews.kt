@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bowoon.android.live_slider.fragment.MajorNewsFragment
-import com.bowoon.android.live_slider.model.Item
+import com.bowoon.android.live_slider.data.model.Item
 
 class AdapterOfMajorNews(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {

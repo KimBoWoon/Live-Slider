@@ -5,7 +5,7 @@
 
     <data>
         <variable name="callback" type="com.bowoon.android.live_slider.listener.ItemClickListener"/>
-        <variable name="item" type="com.bowoon.android.live_slider.model.Item"/>
+        <variable name="item" type="com.bowoon.android.live_slider.data.model.Item"/>
     </data>
 
     <androidx.cardview.widget.CardView

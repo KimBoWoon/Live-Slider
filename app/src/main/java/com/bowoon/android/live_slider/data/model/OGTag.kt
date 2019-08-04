@@ -1,4 +1,4 @@
-package com.bowoon.android.live_slider.model
+package com.bowoon.android.live_slider.data.model
 
 import pl.droidsonroids.jspoon.annotation.Selector
 import java.io.Serializable

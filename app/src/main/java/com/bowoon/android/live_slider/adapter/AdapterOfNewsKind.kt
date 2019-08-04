@@ -6,8 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bowoon.android.live_slider.fragment.NewsFragment
-import com.bowoon.android.live_slider.model.Item
-import com.bowoon.android.live_slider.type.NewsType
+import com.bowoon.android.live_slider.data.type.NewsType
 
 class AdapterOfNewsKind(private val tabCount: Int, fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {

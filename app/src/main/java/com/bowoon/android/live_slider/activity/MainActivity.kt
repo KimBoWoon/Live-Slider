@@ -1,10 +1,10 @@
 package com.bowoon.android.live_slider.activity
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
@@ -17,28 +17,37 @@ import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.adapter.AdapterOfMajorNews
 import com.bowoon.android.live_slider.adapter.AdapterOfNewsKind
 import com.bowoon.android.live_slider.animation.ViewPagerAnimation
+import com.bowoon.android.live_slider.data.Constant
 import com.bowoon.android.live_slider.data.DataRepository
+import com.bowoon.android.live_slider.data.SharedStorage
+import com.bowoon.android.live_slider.data.model.Rss
+import com.bowoon.android.live_slider.data.type.NewsType
 import com.bowoon.android.live_slider.databinding.ActivityMainBinding
 import com.bowoon.android.live_slider.log.Log
-import com.bowoon.android.live_slider.model.Item
-import com.bowoon.android.live_slider.model.Rss
-import com.bowoon.android.live_slider.type.NewsType
 import com.bowoon.android.live_slider.viewmodel.DataViewModel
 import com.google.android.material.tabs.TabLayout
+import pub.devrel.easypermissions.AfterPermissionGranted
+import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
-import kotlin.collections.ArrayList
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapterOfNewsKind: AdapterOfNewsKind
     private lateinit var adapterOfMajorNews: AdapterOfMajorNews
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var majorNewsViewModel: DataViewModel
+    private val requestCode = 1000
     private val TAG = "MainActivity"
     private var currentPage = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        requiresPermission()
+
+//        if (SharedStorage.getBoolean("isFirst")) {
+//            startActivityForResult(Intent(this, SettingActivity::class.java), requestCode)
+//        }
 
         initViewModel()
         initView()
@@ -175,6 +184,49 @@ class MainActivity : AppCompatActivity() {
                 })
             }
         }, 3000, 3000)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == RESULT_OK) {
+            when (requestCode) {
+                this.requestCode -> {
+                    SharedStorage.setBoolean("isFirst", false)
+                }
+            }
+        }
+    }
+
+    @AfterPermissionGranted(Constant.INTERNET)
+    private fun requiresPermission() {
+        val perms = arrayOf(Manifest.permission.INTERNET)
+        if (EasyPermissions.hasPermissions(this, *perms)) {
+            // Already have permission, do the thing
+            // ...
+        } else {
+            // Do not have permissions, request them now
+            EasyPermissions.requestPermissions(
+                this,
+                getString(R.string.need_permissions),
+                Constant.INTERNET,
+                *perms
+            )
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        Log.i("Permission", "Denied")
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+        Log.i("Permission", "Granted")
     }
 
     private fun initViewModel() {

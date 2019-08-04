@@ -1,4 +1,4 @@
-package com.bowoon.android.live_slider.model.adapter
+package com.bowoon.android.live_slider.data.model.adapter
 
 import com.tickaroo.tikxml.TypeConverter
 import org.joda.time.DateTime

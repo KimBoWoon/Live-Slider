@@ -1,7 +1,7 @@
 package com.bowoon.android.live_slider.http
 
-import com.bowoon.android.live_slider.model.OGTag
-import com.bowoon.android.live_slider.model.Rss
+import com.bowoon.android.live_slider.data.model.OGTag
+import com.bowoon.android.live_slider.data.model.Rss
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Url

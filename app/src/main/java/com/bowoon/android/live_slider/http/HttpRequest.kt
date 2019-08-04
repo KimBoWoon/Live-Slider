@@ -1,13 +1,12 @@
 package com.bowoon.android.live_slider.http
 
 import com.bowoon.android.live_slider.log.Log
-import com.bowoon.android.live_slider.model.*
-import com.bowoon.android.live_slider.model.adapter.*
+import com.bowoon.android.live_slider.data.model.*
+import com.bowoon.android.live_slider.data.model.adapter.*
 import com.tickaroo.tikxml.TikXml
 import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import pl.droidsonroids.jspoon.Jspoon
 import pl.droidsonroids.retrofit2.JspoonConverterFactory
 import retrofit2.Call
 import retrofit2.Callback
