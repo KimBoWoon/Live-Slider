@@ -14,12 +14,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bowoon.android.live_slider.R
 import com.bowoon.android.live_slider.activity.WebViewActivity
 import com.bowoon.android.live_slider.adapter.AdapterOfNews
+import com.bowoon.android.live_slider.data.DataRepository
 import com.bowoon.android.live_slider.databinding.NewsItemViewBinding
 import com.bowoon.android.live_slider.listener.ItemClickListener
 import com.bowoon.android.live_slider.data.model.Item
 import com.bowoon.android.live_slider.data.model.Rss
 import com.bowoon.android.live_slider.module.GlideApp
 import com.bowoon.android.live_slider.data.type.NewsType
+import com.bowoon.android.live_slider.http.HttpCallback
 import com.bowoon.android.live_slider.viewmodel.DataViewModel
 
 class NewsFragment : Fragment() {
@@ -44,6 +46,7 @@ class NewsFragment : Fragment() {
 
         arguments?.let {
             val type = it.getSerializable("type") as NewsType
+            DataRepository.typeRequest(type)
             initViewModel(type)
             adapterOfNews = AdapterOfNews(itemClicked, type, GlideApp.with(this@NewsFragment))
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -57,6 +60,17 @@ class NewsFragment : Fragment() {
         newsViewModel.getRSS(type).observe(this, object : Observer<Rss> {
             override fun onChanged(t: Rss?) {
                 t?.let {
+                    binding.newsItemProgress.visibility = View.GONE
+                    binding.newsItemText.visibility = View.GONE
+                    DataRepository.ogTagRequest(it.channel.item.subList(0, 5), object : HttpCallback {
+                        override fun onSuccess(o: Any?) {
+                            adapterOfNews.setItems(ArrayList<Item>(it.channel.item.subList(0, 5)))
+                        }
+
+                        override fun onFail(o: Any) {
+
+                        }
+                    })
                     adapterOfNews.setItems(ArrayList<Item>(it.channel.item.subList(0, 5)))
                 }
             }

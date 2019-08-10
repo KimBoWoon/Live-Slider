@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
         initViewModel()
         initView()
-        DataRepository.request()
+        DataRepository.typeRequest(NewsType.MAIN)
         settingTimer()
     }
 

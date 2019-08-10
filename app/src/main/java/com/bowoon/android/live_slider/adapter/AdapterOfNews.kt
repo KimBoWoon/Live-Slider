@@ -11,6 +11,7 @@ import com.bowoon.android.live_slider.databinding.NewsItemBinding
 import com.bowoon.android.live_slider.listener.ItemClickListener
 import com.bowoon.android.live_slider.data.model.Item
 import com.bowoon.android.live_slider.data.type.NewsType
+import com.bowoon.android.live_slider.http.HttpCallback
 import com.bumptech.glide.RequestManager
 
 
@@ -59,6 +60,17 @@ class AdapterOfNews(
             } else {
                 EndlessScrollListener.onLoadMore(position + 1, DataRepository.allNews.value!!.channel.item.size, type, items!!)
             }
+
+            DataRepository.ogTagRequest(items!!, object : HttpCallback {
+                override fun onSuccess(o: Any?) {
+
+                }
+
+                override fun onFail(o: Any) {
+
+                }
+            })
+
             Handler().post(object : Runnable {
                 override fun run() {
                     notifyItemRangeChanged(position + 1, 5)

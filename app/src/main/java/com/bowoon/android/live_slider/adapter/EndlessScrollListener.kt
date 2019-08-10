@@ -2,9 +2,9 @@ package com.bowoon.android.live_slider.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bowoon.android.live_slider.data.DataRepository
+import com.bowoon.android.live_slider.data.model.Item
 import com.bowoon.android.live_slider.data.type.NewsType
 import com.bowoon.android.live_slider.data.type.NewsType.*
-import com.bowoon.android.live_slider.data.model.Item
 
 object EndlessScrollListener : RecyclerView.OnScrollListener() {
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -30,8 +30,6 @@ object EndlessScrollListener : RecyclerView.OnScrollListener() {
             STAR -> list.addAll(DataRepository.starNews.value!!.channel.item.subList(position, position + 5))
             SEARCH -> {}
         }
-
-        DataRepository.ogTagRequest(list)
     }
 
     fun onLoadMore(fromPosition: Int, toPosition: Int, type: NewsType, list: ArrayList<Item>) {
@@ -49,7 +47,5 @@ object EndlessScrollListener : RecyclerView.OnScrollListener() {
             STAR -> list.addAll(DataRepository.starNews.value!!.channel.item.subList(fromPosition, toPosition))
             SEARCH -> {}
         }
-
-        DataRepository.ogTagRequest(list)
     }
 }
