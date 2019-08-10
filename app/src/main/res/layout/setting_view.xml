@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:id="@+id/subscribe_rss"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="구독할 RSS"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000000"
+                app:layout_constraintTop_toBottomOf="@id/subscribe_rss"/>
+
+        <CheckBox
+                android:id="@+id/joongang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="중앙일보"
+                app:layout_constraintTop_toBottomOf="@id/subscribe_rss"/>
+
+        <CheckBox
+                android:id="@+id/hani"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="한겨레"
+                app:layout_constraintTop_toBottomOf="@id/joongang"/>
+
+        <View
+                android:id="@+id/a"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="#000000"
+                app:layout_constraintTop_toBottomOf="@id/hani"/>
+
+        <TextView
+                android:id="@+id/subscribe_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="구독할 기사"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:layout_constraintTop_toTopOf="@id/a"/>
+
+        <View
+                android:id="@+id/a2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000000"
+                app:layout_constraintTop_toBottomOf="@id/subscribe_news"/>
+
+        <CheckBox
+                android:id="@+id/money_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="경제"
+                app:layout_constraintTop_toBottomOf="@id/a2"/>
+
+        <CheckBox
+                android:id="@+id/sport_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="스포츠"
+                app:layout_constraintTop_toBottomOf="@id/money_news"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
