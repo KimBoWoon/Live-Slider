@@ -15,6 +15,7 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
         <View
+                android:id="@+id/separate_line_1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#000000"
@@ -25,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="중앙일보"
-                app:layout_constraintTop_toBottomOf="@id/subscribe_rss"/>
+                app:layout_constraintTop_toBottomOf="@id/separate_line_1"/>
 
         <CheckBox
                 android:id="@+id/hani"
@@ -35,7 +36,7 @@
                 app:layout_constraintTop_toBottomOf="@id/joongang"/>
 
         <View
-                android:id="@+id/a"
+                android:id="@+id/separate_line_2"
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
                 android:background="#000000"
@@ -48,27 +49,83 @@
                 android:text="구독할 기사"
                 android:textColor="#000000"
                 android:textSize="20sp"
-                app:layout_constraintTop_toTopOf="@id/a"/>
+                app:layout_constraintTop_toTopOf="@id/separate_line_2"/>
 
         <View
-                android:id="@+id/a2"
+                android:id="@+id/separate_line_3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#000000"
                 app:layout_constraintTop_toBottomOf="@id/subscribe_news"/>
 
         <CheckBox
+                android:id="@+id/all_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="전체"
+                app:layout_constraintTop_toBottomOf="@id/separate_line_3"/>
+
+        <CheckBox
                 android:id="@+id/money_news"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="경제"
-                app:layout_constraintTop_toBottomOf="@id/a2"/>
+                app:layout_constraintTop_toBottomOf="@id/all_news"/>
+
+        <CheckBox
+                android:id="@+id/life_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="사회"
+                app:layout_constraintTop_toBottomOf="@id/money_news"/>
+
+        <CheckBox
+                android:id="@+id/politics_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="정치"
+                app:layout_constraintTop_toBottomOf="@id/life_news"/>
+
+        <CheckBox
+                android:id="@+id/world_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="지구촌"
+                app:layout_constraintTop_toBottomOf="@id/politics_news"/>
+
+        <CheckBox
+                android:id="@+id/culture_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="문화"
+                app:layout_constraintTop_toBottomOf="@id/world_news"/>
+
+        <CheckBox
+                android:id="@+id/it_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="IT"
+                app:layout_constraintTop_toBottomOf="@id/culture_news"/>
+
+        <CheckBox
+                android:id="@+id/daily_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="중앙데일리"
+                app:layout_constraintTop_toBottomOf="@id/it_news"/>
 
         <CheckBox
                 android:id="@+id/sport_news"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="스포츠"
-                app:layout_constraintTop_toBottomOf="@id/money_news"/>
+                app:layout_constraintTop_toBottomOf="@id/daily_news"/>
+
+        <CheckBox
+                android:id="@+id/star_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="연예"
+                app:layout_constraintTop_toBottomOf="@id/sport_news"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

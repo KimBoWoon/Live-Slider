@@ -45,9 +45,9 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
         requiresPermission()
 
-//        if (SharedStorage.getBoolean("isFirst")) {
-//            startActivityForResult(Intent(this, SettingActivity::class.java), requestCode)
-//        }
+        if (SharedStorage.getBoolean("isFirst")) {
+            startActivityForResult(Intent(this, SettingActivity::class.java), requestCode)
+        }
 
         initViewModel()
         initView()
@@ -190,6 +190,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == RESULT_OK) {
+            Log.i(TAG, "returnSuccess")
             when (requestCode) {
                 this.requestCode -> {
                     SharedStorage.setBoolean("isFirst", false)
