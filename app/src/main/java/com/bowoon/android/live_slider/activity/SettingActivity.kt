@@ -8,11 +8,16 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.bowoon.android.live_slider.R
+import com.bowoon.android.live_slider.data.SharedStorage
+import com.bowoon.android.live_slider.data.model.NewsSetting
+import com.bowoon.android.live_slider.data.type.NewsType
 import com.bowoon.android.live_slider.databinding.SettingViewBinding
+import com.bowoon.android.live_slider.log.Log
+import org.json.JSONObject
 
 class SettingActivity : AppCompatActivity() {
     private lateinit var binding: SettingViewBinding
-    private var result = ""
+    private val newsSetting = NewsSetting()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,29 +40,86 @@ class SettingActivity : AppCompatActivity() {
         binding.dailyNews.setOnClickListener(checkboxListener)
         binding.sportNews.setOnClickListener(checkboxListener)
         binding.starNews.setOnClickListener(checkboxListener)
+        binding.settingComplete.setOnClickListener(clickListener)
+        binding.settingComplete.setOnClickListener(clickListener)
     }
 
     private val checkboxListener = object : View.OnClickListener {
         override fun onClick(p0: View?) {
-            when {
-                binding.allNews.isChecked -> result += "allNewsChecked"
-                binding.moneyNews.isChecked -> result += "moneyNewsChecked"
-                binding.lifeNews.isChecked -> result += "lifeNewsChecked"
-                binding.politicsNews.isChecked -> result += "politicsNewsChecked"
-                binding.worldNews.isChecked -> result += "worldNewsChecked"
-                binding.cultureNews.isChecked -> result += "cultureNewsChecked"
-                binding.itNews.isChecked -> result += "itNewsChecked"
-                binding.dailyNews.isChecked -> result += "dailyNewsChecked"
-                binding.sportNews.isChecked -> result += "sportNewsChecked"
-                binding.starNews.isChecked -> result += "starNewsChecked"
+            if (p0 is CheckBox) {
+                val checked: Boolean = p0.isChecked
+
+                when (p0.id) {
+                    R.id.all_news -> {
+                        if (checked) {
+                            newsSetting.allNews = true
+                        }
+                    }
+                    R.id.money_news -> {
+                        if (checked) {
+                            newsSetting.moneyNews = true
+                        }
+                    }
+                    R.id.life_news -> {
+                        if (checked) {
+                            newsSetting.lifeNews = true
+                        }
+                    }
+                    R.id.politics_news -> {
+                        if (checked) {
+                            newsSetting.politicsNews = true
+                        }
+                    }
+                    R.id.world_news -> {
+                        if (checked) {
+                            newsSetting.worldNews = true
+                        }
+                    }
+                    R.id.culture_news -> {
+                        if (checked) {
+                            newsSetting.cultureNews = true
+                        }
+                    }
+                    R.id.it_news -> {
+                        if (checked) {
+                            newsSetting.itNews = true
+                        }
+                    }
+                    R.id.daily_news -> {
+                        if (checked) {
+                            newsSetting.dailyNews = true
+                        }
+                    }
+                    R.id.sport_news -> {
+                        if (checked) {
+                            newsSetting.sportNews = true
+                        }
+                    }
+                    R.id.star_news -> {
+                        if (checked) {
+                            newsSetting.starNews = true
+                        }
+                    }
+                }
             }
+        }
+    }
 
-            Toast.makeText(applicationContext, result, Toast.LENGTH_SHORT).show()
-
-            val resultIntent = Intent()
-            resultIntent.putExtra("result", result)
-            setResult(RESULT_OK, resultIntent)
-            finish()
+    private val clickListener = object : View.OnClickListener {
+        override fun onClick(v: View?) {
+            if (v != null) {
+                when (v.id) {
+                    R.id.setting_complete -> {
+                        SharedStorage.initSetting.put("newsSetting", newsSetting)
+                        finish()
+                    }
+                    R.id.setting_cancel -> {
+                        finish()
+                    }
+                }
+            } else {
+                throw NullPointerException("view is null")
+            }
         }
     }
 }

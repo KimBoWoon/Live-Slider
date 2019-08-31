@@ -2,9 +2,11 @@ package com.bowoon.android.live_slider.data
 
 import android.content.Context
 import com.bowoon.android.live_slider.basic.BasicApp
+import org.json.JSONObject
 
 object SharedStorage {
     private val pref = BasicApp.app.getSharedPreferences("live-slider", Context.MODE_PRIVATE)
+    val initSetting = JSONObject()
 
     fun setBoolean(key: String, value: Boolean) {
         pref.edit().putBoolean(key, value).apply()

@@ -127,5 +127,23 @@
                 android:layout_height="wrap_content"
                 android:text="연예"
                 app:layout_constraintTop_toBottomOf="@id/sport_news"/>
+
+        <Button
+                android:id="@+id/setting_complete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="완료"
+                app:layout_constraintRight_toLeftOf="@id/setting_cancel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <Button
+                android:id="@+id/setting_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="취소"
+                app:layout_constraintLeft_toRightOf="@id/setting_complete"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -74,4 +74,8 @@ class AdapterOfNewsKind(private val tabCount: Int, fragmentManager: FragmentMana
     override fun getItemCount(): Int {
         return tabCount
     }
+
+    fun tabChanged() {
+        notifyDataSetChanged()
+    }
 }
